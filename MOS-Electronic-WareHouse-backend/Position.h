@@ -11,12 +11,70 @@ enum class TypePosition {
  
 class Position {
 public:
-    Position(const int& x, const int& y, const int& z) {
+    Position (const int& x, const int& y, const int& z) {
+        // Small
         if (x <= 1000 and y <= 1000 and z <= 1000) {
             height = x;
             width = y;
             depth = z;
+            type = TypePosition::Small;
         }
+
+        // Medium
+
+        else if (x <= 1000 and y <= 2000 and z <= 1000) {
+            height = x;
+            width = y;
+            depth = z;
+            type = TypePosition::Medium;
+        }
+
+        else if (x <= 2000 and y <= 1000 and z <= 1000) {
+            height = y;
+            width = x;
+            depth = z;
+            type = TypePosition::Medium;
+        }
+
+        else if (x <= 1000 and y <= 1000 and z <= 2000) {
+            height = z;
+            width = y;
+            depth = x;
+            type = TypePosition::Medium;
+        }
+
+        //Big
+
+        else if (x <= 2000 and y <= 2000 and z <= 1000) {
+            height = x;
+            width = y;
+            depth = z;
+            type = TypePosition::Big;
+        }
+
+        else if (x <= 2000 and y <= 1000 and z <= 2000) {
+            height = x;
+            width = z;
+            depth = y;
+            type = TypePosition::Big;
+        }
+
+        else if (x <= 1000 and y <= 2000 and z <= 2000) {
+            height = z;
+            width = y;
+            depth = x;
+            type = TypePosition::Big;
+        }
+
+        else {
+            height = x;
+            width = y;
+            depth = z;
+            type = TypePosition::RemoteWarehouse;
+        }
+    }
+    TypePosition GetType() {
+        return type;
     }
 private:
     int height;
