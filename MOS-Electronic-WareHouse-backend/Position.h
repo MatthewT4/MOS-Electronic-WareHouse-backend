@@ -9,9 +9,9 @@ enum class TypePosition {
     RemoteWarehouse //удалённый склад.
 };
  
-class Position {
+class TypeAndSizePosition {
 public:
-    Position (const int& x, const int& y, const int& z) {
+    TypeAndSizePosition(const int& x, const int& y, const int& z) {
         // Small
         if (x <= 1000 and y <= 1000 and z <= 1000) {
             height = x;
@@ -81,6 +81,19 @@ private:
     int width;
     int depth;
     TypePosition type;
+};
+
+class Position {
+public:
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) {
+        name = InName;
+        weigt = InWeight;
+        sizeAndType = InSizeAndType;
+    }
+private:
+    string name;
+    int weigt;
+    TypeAndSizePosition sizeAndType;
 };
 /* unit test:
         300*300*300 -> Small
