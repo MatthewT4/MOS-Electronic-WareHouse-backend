@@ -1,6 +1,9 @@
 #pragma once;
-
+//#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
+//#include <windows.h>
 using namespace std;
+
+
 
 enum class TypePosition {
     Small, //1000*1000*1000
@@ -11,7 +14,6 @@ enum class TypePosition {
  
 class TypeAndSizePosition {
 public:
-    TypeAndSizePosition() {}
     TypeAndSizePosition(const int& x, const int& y, const int& z) {
         // Small
         if (x <= 1000 and y <= 1000 and z <= 1000) {
@@ -86,15 +88,14 @@ private:
 
 class Position {
 public:
-    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) {
-        name = InName;
-        weigt = InWeight;
-        sizeAndType = InSizeAndType;
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) : name(InName), weigt(InWeight), sizeAndType(InSizeAndType) {
+        //uuid = generateUUID()
     }
 private:
     string name;
     int weigt;
     TypeAndSizePosition sizeAndType;
+    string uuid;
 };
 /* unit test:
         300*300*300 -> Small

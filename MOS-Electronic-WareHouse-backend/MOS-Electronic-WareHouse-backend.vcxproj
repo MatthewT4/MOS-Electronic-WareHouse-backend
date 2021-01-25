@@ -149,9 +149,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp" />
+    <ClCompile Include="Position.cpp" />
     <ClCompile Include="TestAll.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Position.h" />
     <ClInclude Include="TestAll.h" />
     <ClInclude Include="TestRunner.h" />
   </ItemGroup>
