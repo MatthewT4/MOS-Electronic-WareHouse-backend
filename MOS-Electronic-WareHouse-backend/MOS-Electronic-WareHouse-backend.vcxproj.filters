@@ -24,6 +24,9 @@
     <ClCompile Include="Position.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="WareHouse.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestRunner.h">
@@ -33,6 +36,9 @@
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Position.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="WareHouse.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

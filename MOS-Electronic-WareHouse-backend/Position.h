@@ -14,6 +14,7 @@ enum class TypePosition {
  
 class TypeAndSizePosition {
 public:
+    TypeAndSizePosition() {}
     TypeAndSizePosition(const int& x, const int& y, const int& z) {
         // Small
         if (x <= 1000 and y <= 1000 and z <= 1000) {
@@ -88,8 +89,17 @@ private:
 
 class Position {
 public:
+    Position(){}
     Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) : name(InName), weigt(InWeight), sizeAndType(InSizeAndType) {
         //uuid = generateUUID()
+    }
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid) : name(InName),
+                                        weigt(InWeight), sizeAndType(InSizeAndType), uuid(InUuid) {
+        //uuid = generateUUID()
+    }
+    Position(string InUUID) : uuid(InUUID) {} //debug, delete continue!!!!!!
+    string GetUUid() {
+        return uuid;
     }
 private:
     string name;

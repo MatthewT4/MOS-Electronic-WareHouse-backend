@@ -151,11 +151,13 @@
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="TestAll.cpp" />
+    <ClCompile Include="WareHouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h" />
     <ClInclude Include="TestAll.h" />
     <ClInclude Include="TestRunner.h" />
+    <ClInclude Include="WareHouse.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

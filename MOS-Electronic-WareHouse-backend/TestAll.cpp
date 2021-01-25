@@ -40,16 +40,26 @@ void TestTypeAndPosition() {
         Check(a, TypePosition::Big, "8");
     }
 }
+void TestWareHouse() {
+    {
+        WareHouse wh;
+        wh.AddElement(Cell(TypePosition::Small, Position("uud1131"), { "A1" }));
+        Cell c = wh.GetElementToUUID("uud1131");
+        if (c.posit.GetUUid() != "uud1131") {
+            throw logic_error("WareHouse logic Error: test 1");
+        }
+    }
+}
 
 void TestAll()
 {
     try {
         TestTypeAndPosition();
+        TestWareHouse();
     }
     catch (exception ex) {
         cout << "!!Exception: " << ex.what();
-        exit;
+        exit(-1);
     }
     cout << "Tests OK!";
-    exit;
 }
