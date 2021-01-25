@@ -18,9 +18,15 @@
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="TestAll.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestRunner.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TestAll.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

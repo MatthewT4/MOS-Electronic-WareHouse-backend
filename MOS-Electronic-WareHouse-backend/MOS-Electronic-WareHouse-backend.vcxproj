@@ -149,8 +149,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp" />
+    <ClCompile Include="TestAll.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TestAll.h" />
     <ClInclude Include="TestRunner.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
