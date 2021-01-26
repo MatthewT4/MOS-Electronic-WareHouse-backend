@@ -7,4 +7,5 @@ void Test() {
         Indepth = 3,
         Inweigt = 2;
     Position Pos1 = { InName, Inweigt, TypeAndSizePosition(Inheight, Inwidth, Inweigt) };
+    //создание элемента position
 }
