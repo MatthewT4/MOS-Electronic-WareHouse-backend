@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\HttpAndJson">
+      <UniqueIdentifier>{cf0ab9b0-2ad7-4a74-a717-9d365b31b02b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="WareHouse.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="HTTP.cpp">
+      <Filter>Исходные файлы\HttpAndJson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestRunner.h">
@@ -40,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="WareHouse.h">
       <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="HTTP.h">
+      <Filter>Исходные файлы\HttpAndJson</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
