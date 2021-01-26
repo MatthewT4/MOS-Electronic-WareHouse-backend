@@ -1,6 +1,7 @@
 #pragma once;
 //#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
 //#include <windows.h>
+#include <string>
 using namespace std;
 
 
@@ -86,7 +87,6 @@ private:
     int depth;
     TypePosition type;
 };
-
 class Position {
 public:
     Position(){}
@@ -107,6 +107,7 @@ private:
     TypeAndSizePosition sizeAndType;
     string uuid;
 };
+void Test();
 /* unit test:
         300*300*300 -> Small
         200*500*2100 -> RemoteWarehouse
