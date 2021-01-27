@@ -12,7 +12,7 @@ struct Cell {
 								posit(Inposit), includeCell(InVecCell), empty(false) {}
 	bool empty = true;
 	TypePosition type;
-	Position posit;
+	Position posit = Position("000");
 	vector<std::string> includeCell;
 	bool Error = false;
 };
@@ -22,10 +22,12 @@ bool operator<(Cell c1, Cell c2);
 class WareHouse {
 public:
 	WareHouse(); /*{}*/
-	void AddElement(Cell ce); /*{
+	void AddElement(Cell ce);
+	/*{
 		setWareHouse.insert(ce);
 	}*/
-	Cell GetElementToUUID(const string& uuid); /*{ // выдача элемента по позиции.
+	Cell GetElementToUUID(const string& uuid); 
+	/*{ // выдача элемента по позиции.
 		auto it = find_if(setWareHouse.begin(), setWareHouse.end(), [uuid] (Cell c) {
 			return c.posit.GetUUid() == uuid;
 			});
