@@ -18,10 +18,10 @@
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TestAll.cpp">
+    <ClCompile Include="Position.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Position.cpp">
+    <ClCompile Include="TestAll.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="WareHouse.cpp">
@@ -29,13 +29,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestRunner.h">
+    <ClInclude Include="Position.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="TestAll.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Position.h">
+    <ClInclude Include="TestRunner.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="WareHouse.h">

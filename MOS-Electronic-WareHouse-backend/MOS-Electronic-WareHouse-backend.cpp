@@ -3,8 +3,7 @@
 #include "Position.h"
 #include <stdexcept>
 #include "TestAll.h"
-
-using namespace std; 
+using namespace std;
 
 
 
