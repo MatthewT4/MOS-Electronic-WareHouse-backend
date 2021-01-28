@@ -51,4 +51,7 @@
       <Filter>Исходные файлы\HttpAndJson</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

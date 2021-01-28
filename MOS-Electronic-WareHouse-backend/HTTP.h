@@ -1,24 +1,44 @@
-#pragma once
-#include <boost/beast.hpp>
-#include <boost/asio/connect.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <string>
+#include <curl/curl.h>
+#include <iostream>
+#include <sstream>
+#include <algorithm>
 
-const static std::string MAIN_API = "127.0.0.1";
-const static std::string PORT = "5000";
+using namespace std;
 
-namespace http = boost::beast::http;
-class Client {	
-public:
-	static std::string GetJSON(std::string ip) {
+size_t writefunc(void* ptr, size_t size, size_t nmemb, std::string* data) {
+	data->append((char*)ptr, size * nmemb);
+	return size * nmemb;
+}
 
-		boost::asio::io_context io;
-		boost::asio::ip::tcp::resolver resolver(io);
-		boost::asio::ip::tcp::socket socket(io);
+string GetHTTP(const string& ip, const int& PORT)
+{
+	CURL* curl;//Объект CURL
 
-		boost::asio::connect(socket, resolver.resolve(MAIN_API, PORT));
+	//объект в который будет записан результат вызова функции curl_easy_perform
+	CURLcode res;
 
-		http::request<http::string_body> req(http::verb::get, API_, 11);
+	//выполняем инициализацю
+	curl = curl_easy_init();
+	std::string finish;
+	if (curl) { //проверяем все ли ОК
+	//дальше работаем с опциями
+
+	//задаем опцию получить страницу http://nullflow.blogspot.com
+		curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
+		curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
+		/*//указываем использовать прокси сервер
+		curl_easy_setopt(curl, CURLOPT_PROXY, "ip_proxy:8080");
+
+		//задаем опцию отображение заголовка страницы
+		curl_easy_setopt(curl, CURLOPT_HEADER, 1);
+		*/
+		//вызываем функцию curl_easy_perform которая обработает все наши заданные опции и вернет результат, если res будет равен 0 то начит всё прошло успешно, иначе возникла какая то ошибка.
+		res = curl_easy_perform(curl);
+		//завершаем нашу сессию
+		curl_easy_cleanup(curl);
 	}
-};
-
+	cout << finish;
+	return 0;
+}
