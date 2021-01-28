@@ -147,12 +147,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HTTP.cpp" />
+    <ClCompile Include="JSON.cpp" />
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="TestAll.cpp" />
     <ClCompile Include="WareHouse.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HTTP.h" />
+    <ClInclude Include="JSON.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="TestAll.h" />
     <ClInclude Include="TestRunner.h" />
