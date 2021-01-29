@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\HTTP_JSON">
+      <UniqueIdentifier>{7a8575bd-88e8-432c-9fbe-04a30b1c3edb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp">
@@ -28,10 +31,10 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="HTTP.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\HTTP_JSON</Filter>
     </ClCompile>
     <ClCompile Include="JSON.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\HTTP_JSON</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,10 +51,10 @@
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="JSON.h">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\HTTP_JSON</Filter>
     </ClInclude>
     <ClInclude Include="HTTP.h">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\HTTP_JSON</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
