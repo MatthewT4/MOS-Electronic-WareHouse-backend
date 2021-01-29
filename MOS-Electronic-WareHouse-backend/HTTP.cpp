@@ -6,7 +6,7 @@ size_t writefunc(void* ptr, size_t size, size_t nmemb, std::string* data) {
 	return size * nmemb;
 }
 
-string GetJsonByHTTP(string ip, int PORT)
+std::string GetJsonByHTTP(std::string ip, int PORT)
 {
 	CURL* curl;//Объект CURL
 
@@ -16,7 +16,7 @@ string GetJsonByHTTP(string ip, int PORT)
 	//выполняем инициализацю
 	curl = curl_easy_init();
 	if (!curl) { //проверяем все ли ОК
-		cerr << "cURL ERROR curl_easy_init" << endl;
+		std::cerr << "cURL ERROR curl_easy_init" << std::endl;
 		exit(1);
 	}
 	//дальше работаем с опциями

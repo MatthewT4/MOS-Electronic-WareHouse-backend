@@ -4,7 +4,6 @@
 #include <sstream>
 #include <algorithm>
 
-using namespace std;
 
 
-string GetJsonByHTTP(string ip, int PORT);
+std::string GetJsonByHTTP(std::string ip, int PORT);

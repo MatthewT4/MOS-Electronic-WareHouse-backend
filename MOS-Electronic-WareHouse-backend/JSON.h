@@ -11,4 +11,4 @@ struct POSTJSON {
     int size_z;
     std::vector<std::vector<std::string>> vecAssociations;
 };
-POSTJSON GetScheme(const string& ip, const int& PORT);
+POSTJSON GetScheme(const std::string& ip, const int& PORT);

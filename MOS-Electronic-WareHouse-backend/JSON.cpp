@@ -8,7 +8,7 @@
 
 using json = nlohmann::json;
 
-POSTJSON GetScheme(const string& ip, const int& PORT) {
+POSTJSON GetScheme(const std::string& ip, const int& PORT) {
     POSTJSON post;
     try {
         //std::string responseString = GetJsonByHTTP("http://127.0.0.1/scheme", 5000);
@@ -18,7 +18,7 @@ POSTJSON GetScheme(const string& ip, const int& PORT) {
         post.size_x = object1["size_x"];
         post.size_y = object1["size_y"];
         post.size_z = object1["size_z"];
-        std::vector<vector<string>> vec = object2;
+        std::vector<std::vector<std::string>> vec = object2;
         post.vecAssociations = vec;
         /*
         cout << "x = " << post.size_x << endl;
@@ -32,8 +32,8 @@ POSTJSON GetScheme(const string& ip, const int& PORT) {
             cout << endl;
         }*/
     }
-    catch (exception& ex) {
-        cerr << "Error: JSON fatal error: " << ex.what() << endl;
+    catch (std::exception& ex) {
+        std::cerr << "Error: JSON fatal error: " << ex.what() << std::endl;
         exit(1);
     }
     return post;
