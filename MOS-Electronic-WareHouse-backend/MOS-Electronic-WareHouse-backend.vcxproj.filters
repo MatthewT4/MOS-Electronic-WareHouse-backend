@@ -16,15 +16,15 @@
     <Filter Include="Исходные файлы\HTTP_JSON">
       <UniqueIdentifier>{7a8575bd-88e8-432c-9fbe-04a30b1c3edb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Tests">
+      <UniqueIdentifier>{c8e25755-2a6e-4624-b97d-ae1829ef4afc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Position.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="TestAll.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="WareHouse.cpp">
@@ -36,15 +36,15 @@
     <ClCompile Include="JSON.cpp">
       <Filter>Исходные файлы\HTTP_JSON</Filter>
     </ClCompile>
+    <ClCompile Include="TestAll.cpp">
+      <Filter>Исходные файлы\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="DataBase.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="TestAll.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="TestRunner.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="WareHouse.h">
@@ -55,6 +55,15 @@
     </ClInclude>
     <ClInclude Include="HTTP.h">
       <Filter>Исходные файлы\HTTP_JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="TestAll.h">
+      <Filter>Исходные файлы\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="TestRunner.h">
+      <Filter>Исходные файлы\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBase.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

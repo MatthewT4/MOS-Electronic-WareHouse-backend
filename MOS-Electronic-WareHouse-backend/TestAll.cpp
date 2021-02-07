@@ -1,4 +1,5 @@
 #include "TestAll.h"
+#include "DataBase.h"
 
 template <class Value, class Valid>
 void Check(Value p, Valid t, string n) {
@@ -55,11 +56,16 @@ void TestWareHouse() {
     }
 }
 
+/*void TestDBSystem() {
+    DataBase db("test.db");
+    cout << db.SelectData("SELECT * FROM WareHouse Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
+}*/
 void TestAll()
 {
     try {
         TestTypeAndPosition();
         TestWareHouse();
+        //TestDBSystem();
     }
     catch (exception ex) {
         cout << "!!Exception: " << ex.what();

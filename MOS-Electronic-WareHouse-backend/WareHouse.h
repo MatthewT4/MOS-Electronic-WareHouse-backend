@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include "JSON.h"
 
 struct Cell {
 	Cell() {}
@@ -22,6 +23,7 @@ bool operator<(Cell c1, Cell c2);
 class WareHouse {
 public:
 	WareHouse(); /*{}*/
+	WareHouse(POSTJSON data);
 	void AddElement(Cell ce);
 	/*{
 		setWareHouse.insert(ce);
@@ -39,5 +41,8 @@ public:
 		}
 	}*/
 private:
-	set<Cell> setWareHouse;
+	int heightWH = 0,
+		widthWH = 0,
+		depthWH = 0;
+	std::vector<std::vector<std::string>> vecCellNotSmall;
 };
