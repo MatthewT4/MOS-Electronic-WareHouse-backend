@@ -67,9 +67,10 @@ DataBase::~DataBase() {
     sqlite3_close(db);
 }
 std::string DataBase::SelectData(std::string GetData) {
-    Result = "";
+    Result = "[";
     const char* sql = GetData.c_str();
     rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+    Result += "]";
     return Result;
 }
 
