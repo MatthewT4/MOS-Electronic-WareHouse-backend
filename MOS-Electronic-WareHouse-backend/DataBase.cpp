@@ -2,7 +2,7 @@
 #include <sstream>
 #include <exception>
 std::string Result = "";
-
+static bool Che = false;
 static bool IsInt(std::string Val) {
     /*try {
         std::stringstream ss;
@@ -30,29 +30,40 @@ static bool IsInt(std::string Val) {
     return true;
 }
 
-static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
+static int SelectCallback(void* NotUsed, int argc, char** argv, char** azColName) {
     int i;
     std::string Value;
-    Result += "[";
+    if (Che) {
+        Result += ", ";
+    }
+    else { Che = true; }
+    Result += "{";
+    bool ch = false;
     for (i = 0; i < argc; i++) {
         //Result += "%s = %s\n" + azColName[i] + argv[i] ? argv[i] : "NULL";
-        Result += "[";
+        if (ch) {
+            Result += ", ";
+        }
+        else {
+            ch = true;
+        }
+        Result += '"';
         Result += azColName[i];
+        Result += '"';
         Result += ": ";
         Value = (argv[i] ? argv[i] : "NULL");
         if (IsInt(Value)) {
             Result += Value;
         }
         else {
-            Result += "'";
+            Result += '"';
             Result += Value;
-            Result += "'";
+            Result += '"';
 
         }
         //Result += (argv[i] ? argv[i] : "NULL");
-        Result += "]";
     }
-    Result += "]";
+    Result += "}";
     return 0;
 }
 
@@ -67,14 +78,22 @@ DataBase::~DataBase() {
     sqlite3_close(db);
 }
 std::string DataBase::SelectData(std::string GetData) {
-    Result = "[";
+    Result = "{";
+    Result += "\"status\": 200, \"body\": [";
+
     const char* sql = GetData.c_str();
-    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-    Result += "]";
+    Che = false;
+    rc = sqlite3_exec(db, sql, SelectCallback, 0, &zErrMsg);
+    Result += "]}";
+    if (rc != SQLITE_OK) {
+       // fprintf(stderr, "[SQL error]: ", zErrMsg);
+        std::cerr << "[SQL error]: " << zErrMsg << std::endl;
+        return "{\"status\": 404}";
+    }
     return Result;
 }
 
 void TestDB() {
     DataBase db("test.db");
-    std::cout << db.SelectData("SELECT * FROM WareHouse Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
+    std::cout << db.SelectData("SELECT * FROM WareHouse Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell") << std::endl << std::endl;
 }
