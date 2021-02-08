@@ -5,8 +5,8 @@
 
 #include <fastcgi/fcgi_config.h>
 #include <fastcgi/fcgiapp.h>
-#include <fastcgi/fcgi_stdio.h>
-#include <fastcgi/fastcgi.h>
+//#include <fastcgi/fcgi_stdio.h>
+//#include <fastcgi/fastcgi.h>
 #include <iostream>
 #include <stdio.h>
 #include "Position.h"
@@ -130,6 +130,7 @@ static void* doit(void* a)
 }*/
 static void* doit(void* a)
 {
+    char* buffer = new char;
     int rc, i;
     FCGX_Request request;
     char* server_name;
@@ -190,7 +191,7 @@ static void* doit(void* a)
         else if (method == "POST") {
             /*auto ii = FCGI_fgetc(FCGI_stdin);
             cerr << "FCGI_fgetc(FCGI_stdin)" << ii;**/
-            char* buffer = new char;
+            buffer = new char;
             int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
             FCGX_GetStr(buffer, 50, request.in);
             string b = buffer;
@@ -206,7 +207,7 @@ static void* doit(void* a)
         FCGX_PutS("</html>\r\n", request.out);*/
 
         //"заснуть" - имитация многопоточной среды 
-        Sleep(20);
+        Sleep(6000);
 
         //закрыть текущее соединение 
         FCGX_Finish_r(&request);
@@ -219,7 +220,6 @@ static void* doit(void* a)
 }
 int main(void)
 {
-    cerr << "aaaaaaaaa" << endl;
     int i;
     pthread_t id[THREAD_COUNT];
 
