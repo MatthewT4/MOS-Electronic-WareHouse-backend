@@ -42,6 +42,9 @@
     <ClCompile Include="DataBase.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="FastCGI.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
@@ -63,6 +66,9 @@
       <Filter>Исходные файлы\Tests</Filter>
     </ClInclude>
     <ClInclude Include="DataBase.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="FastCGI.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
