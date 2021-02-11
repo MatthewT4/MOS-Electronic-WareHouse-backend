@@ -67,6 +67,16 @@ static int SelectCallback(void* NotUsed, int argc, char** argv, char** azColName
     return 0;
 }
 
+DataBase::DataBase() {}
+
+void DataBase::ConnectToDB(std::string DBName) {
+    sqlite3_close(db);
+    rc = sqlite3_open(DBName.c_str(), &db);
+    if (rc) {
+        throw std::domain_error("Can't open database:" + *sqlite3_errmsg(db));
+    }
+}
+
 DataBase::DataBase(std::string DBName) {
     rc = sqlite3_open(DBName.c_str(), &db);
     if (rc) {
@@ -87,12 +97,22 @@ std::string DataBase::SelectData(std::string GetData) {
     Result += "]}";
     if (rc != SQLITE_OK) {
        // fprintf(stderr, "[SQL error]: ", zErrMsg);
-        std::cerr << "[SQL error]: " << zErrMsg << std::endl;
+        std::cerr << "[SQL error](SelectData): " << zErrMsg << std::endl;
         return "{\"status\": 404}";
     }
     return Result;
 }
 
+bool DataBase::InsertDBData(std::string GetData) {
+    const char* sql = GetData.c_str();
+    rc = sqlite3_exec(db, sql, SelectCallback, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        // fprintf(stderr, "[SQL error]: ", zErrMsg);
+        std::cerr << "[SQL error](InsertDBData): " << zErrMsg << std::endl;
+        return false;
+    }
+    return true;
+}
 void TestDB() {
     DataBase db("test.db");
     std::cout << db.SelectData("SELECT * FROM WareHouse Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell") << std::endl << std::endl;

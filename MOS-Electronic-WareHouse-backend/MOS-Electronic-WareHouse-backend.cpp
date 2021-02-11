@@ -27,6 +27,12 @@ using namespace std;
 
 int main()
 {
+    std::string DBName;
+    WareHouse wh(
+    GetScheme("http://127.0.0.1/scheme", 5000), DBName);
+    cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;
+    GetScheme("http://127.0.0.1/scheme", 5000);
+    TestAll();
     cout << "===========================================================================" << endl;
     cout << "Information:" << endl
         << "Server protocol: FactCGI\n"

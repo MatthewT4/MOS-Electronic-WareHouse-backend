@@ -11,6 +11,9 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 class DataBase
 {
 public:
+    DataBase();
+    
+    void ConnectToDB(std::string DBName);
     DataBase(std::string DBName);
     /*{
         rc = sqlite3_open(DBName.c_str(), &db);
@@ -29,7 +32,7 @@ public:
         rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
         return Result;
     }*/
-
+    bool InsertDBData(std::string GetData);
 private:
     sqlite3* db;
     char* zErrMsg = 0;

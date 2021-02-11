@@ -64,7 +64,7 @@ void TestAll()
 {
     try {
         TestTypeAndPosition();
-        TestWareHouse();
+        //TestWareHouse();
         //TestDBSystem();
     }
     catch (exception ex) {

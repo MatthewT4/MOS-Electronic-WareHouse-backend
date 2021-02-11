@@ -5,6 +5,7 @@
 #include <set>
 #include <algorithm>
 #include "JSON.h"
+#include "DataBase.h"
 
 struct Cell {
 	Cell() {}
@@ -13,9 +14,11 @@ struct Cell {
 								posit(Inposit), includeCell(InVecCell), empty(false) {}
 	bool empty = true;
 	TypePosition type;
-	Position posit = Position("000");
+	Position posit = Position("000"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	vector<std::string> includeCell;
 	bool Error = false;
+	int height;
+	string NameCell = "";
 };
 
 bool operator<(Cell c1, Cell c2);
@@ -23,7 +26,7 @@ bool operator<(Cell c1, Cell c2);
 class WareHouse {
 public:
 	WareHouse(); /*{}*/
-	WareHouse(POSTJSON data);
+	WareHouse(POSTJSON data, string DBName);
 	void AddElement(Cell ce);
 	/*{
 		setWareHouse.insert(ce);
@@ -45,4 +48,6 @@ private:
 		widthWH = 0,
 		depthWH = 0;
 	std::vector<std::vector<std::string>> vecCellNotSmall;
+	void CreateDBTable(std::vector<Cell> InVecCell);
+	DataBase db;
 };

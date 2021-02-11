@@ -47,8 +47,8 @@ static void* doit(void* a)
         std::cout << "Method name: " << method << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         std::string DOCUMENT_URIq = FCGX_GetParam("CONTENT_TYPE", request.envp);
         std::cout << "CONTENT_TYPE name: " << DOCUMENT_URIq << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        std::string DOCUMENT_ROOTq = FCGX_GetParam("CONTENT_LENGTH", request.envp);
-        std::cout << "CONTENT_LENGTH name: " << DOCUMENT_ROOTq << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        std::string CL = FCGX_GetParam("CONTENT_LENGTH", request.envp);
+        std::cout << "CONTENT_LENGTH name: " << CL << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         std::string InURL = FCGX_GetParam("REQUEST_URI", request.envp);
         std::cout << "REQUEST_URI name: " << InURL << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         FCGX_PutS("Content-type: application/json\r\n", request.out);
@@ -74,9 +74,12 @@ static void* doit(void* a)
             SetConsoleCP(1251);
             SetConsoleOutputCP(1251);
             //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
-            FCGX_GetStr(buffer, int(FCGX_GetParam("CONTENT_TYPE", request.envp)), request.in);
+            FCGX_GetStr(buffer, int(FCGX_GetParam("CONTENT_LENGTH", request.envp)), request.in);
+            std::string buf = buffer;
+            //buf = buf[int(FCGX_GetParam("CONTENT_LENGTH", request.envp))];
             //std::string b = buffer; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //std::cerr << "b: " << b << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             buffer = {};
             delete buffer;

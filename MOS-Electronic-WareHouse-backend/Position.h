@@ -87,6 +87,9 @@ private:
     int depth;
     TypePosition type;
 };
+
+string operator+(string st, TypePosition tp);
+
 class Position {
 public:
     Position(){}
