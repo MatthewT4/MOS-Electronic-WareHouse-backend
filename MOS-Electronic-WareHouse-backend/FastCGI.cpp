@@ -62,7 +62,7 @@ static void* doit(void* a)
         if (method == "GET") {
             if (InURL == "/data" /*or OldMethod == "/data"*/) {
                 DataBase db("test.db");
-                std::string dataa = db.SelectData("SELECT * FROM WareHouse Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
+                std::string dataa = db.SelectData("SELECT * FROM WareHouse"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 FCGX_PutS(dataa.c_str(), request.out);
             }
         }

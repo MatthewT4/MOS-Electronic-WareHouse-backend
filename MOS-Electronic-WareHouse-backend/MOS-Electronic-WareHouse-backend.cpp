@@ -27,7 +27,7 @@ using namespace std;
 
 int main()
 {
-    std::string DBName;
+    std::string DBName = "test.db";
     WareHouse wh(
     GetScheme("http://127.0.0.1/scheme", 5000), DBName);
     cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;

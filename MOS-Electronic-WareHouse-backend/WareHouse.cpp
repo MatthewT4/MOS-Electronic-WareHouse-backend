@@ -55,6 +55,9 @@ WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), w
 		if (vec.size() == 2) {
 			cell.type = TypePosition::Medium;
 		}
+		else if (vec.size() == 4) {
+			cell.type = TypePosition::Big;
+		}
 		auto Ccell = CreateCell(vec);
 		for (const auto& NCh : Ccell.Posit) {
 			cell.NameCell += NCh;
@@ -77,6 +80,7 @@ WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), w
 		VecCell.push_back(cell);
 		
 	}
+	CreateDBTable(VecCell);
 }
 
 void WareHouse::AddElement(Cell ce) {
@@ -107,7 +111,11 @@ void WareHouse::CreateDBTable(std::vector<Cell> InVecCell) { // пойдёт под inser
 		RemoteElem.erase(i, RemoteElem.end());
 	}*/
 	for (const auto& ce : InVecCell) {
-		db.InsertDBData("INSERT INTO WareHouse(TypeCell, PositionCell, HeightCell, Empty) VALUES" + (ce.type));
+		std::string dbstr = "INSERT INTO WareHouse(TypeCell, PositionCell, HeightCell, Empty) VALUES (";
+		std::string Val = " \'" + ce.type + "\'" + ", " + "\'" + ce.NameCell + "\'" + ", "
+			+ to_string(ce.height) + ", " + to_string(ce.empty) + ')';
+		dbstr += Val;
+		db.InsertDBData(dbstr);
 	}
 
 }
