@@ -50,6 +50,20 @@ WareHouse::WareHouse() {}
 "merged" : [["A1", "A2"], ["B2", "B3"], ["C1", "C2"], ["D2", "D3"], ["E2", "E3", "F2", "F3"]] }*/
 WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), widthWH(data.size_x), heightWH(data.size_y), depthWH(data.size_z), vecCellNotSmall(data.vecAssociations) {
 	vector<Cell> VecCell;
+	int x = 1, y = 1;
+	while (x <= widthWH) {
+		char n = char(x + 64);
+		while (y <= heightWH) {
+			Cell vc;
+			vc.type = TypePosition::Small;
+			vc.NameCell = n + to_string(y);
+			vc.height = heightWH - y + 1;
+			VecCell.push_back(vc);
+			y++;
+		}
+		y = 1;
+		x++;
+	}
 	for (auto vec : vecCellNotSmall) {
 		Cell cell;
 		if (vec.size() == 2) {
@@ -74,12 +88,13 @@ WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), w
 			}
 		}
 		cell.NameCell = stri + integ;
-		cell.height = Ccell.he;
+		cell.height = heightWH - Ccell.he + 1;
 		/*cout << "Height: " << cell.height << endl
 			<< "NameCell: " << cell.NameCell << endl;*/
 		VecCell.push_back(cell);
 		
 	}
+	x++;
 	CreateDBTable(VecCell);
 }
 
@@ -111,9 +126,9 @@ void WareHouse::CreateDBTable(std::vector<Cell> InVecCell) { // пойдёт под inser
 		RemoteElem.erase(i, RemoteElem.end());
 	}*/
 	for (const auto& ce : InVecCell) {
-		std::string dbstr = "INSERT INTO WareHouse(TypeCell, PositionCell, HeightCell, Empty) VALUES (";
+		std::string dbstr = "INSERT INTO WareHouse(TypeCell, PositionCell, HeightCell) VALUES (";
 		std::string Val = " \'" + ce.type + "\'" + ", " + "\'" + ce.NameCell + "\'" + ", "
-			+ to_string(ce.height) + ", " + to_string(ce.empty) + ')';
+			+ to_string(ce.height) + ')';
 		dbstr += Val;
 		db.InsertDBData(dbstr);
 	}

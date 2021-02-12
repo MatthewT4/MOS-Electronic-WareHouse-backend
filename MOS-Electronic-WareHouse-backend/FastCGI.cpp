@@ -65,8 +65,11 @@ static void* doit(void* a)
                 std::string dataa = db.SelectData("SELECT * FROM WareHouse"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 FCGX_PutS(dataa.c_str(), request.out);
             }
+            else if (InURL == "/api/add") {
+                //POST data and Parsing
+            }
         }
-        else if (method == "POST") {
+        else if (method == "POST") { // Error on Windows, UNIX only!!! 
             char* buffer = new char;
             /*auto ii = FCGI_fgetc(FCGI_stdin);
             cerr << "FCGI_fgetc(FCGI_stdin)" << ii;**/
