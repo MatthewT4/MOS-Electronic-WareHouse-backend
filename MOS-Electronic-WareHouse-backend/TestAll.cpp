@@ -45,7 +45,7 @@ void TestWareHouse() {
     string Error = "WareHouse logic Error: ";
     {
         WareHouse wh;
-        wh.AddElement(Cell(TypePosition::Small, Position("uud1131"), { "A1" }));
+        wh.AddElement(Cell(TypePosition::Small, Position("uud1131")));
         Cell c = wh.GetElementToUUID("uud1131");
         Check(c.posit.GetUUid(), "uud1131", Error + "test 1");
     }

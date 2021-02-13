@@ -102,6 +102,20 @@ std::string DataBase::SelectData(std::string GetData) {
     }
     return Result;
 }
+bool DataBase::CheckingForValuesDB() { //Если записи ячеек склада есть в БД return true, если нет - false;
+    const char* sql = "SELECT * FROM WareHouse WHERE NOT (PositionCell = 'RemoteWarehouse') LIMIT 3";
+    Result = "";
+    rc = sqlite3_exec(db, sql, SelectCallback, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+       // fprintf(stderr, "[SQL error]: ", zErrMsg);
+        std::cerr << "[SQL error](CheckingForValuesDB): " << zErrMsg << std::endl;
+        return false;
+    }
+    if (Result.size() == 0) {
+        return false;
+    }
+    return true;
+}
 
 bool DataBase::InsertDBData(std::string GetData) {
     const char* sql = GetData.c_str();

@@ -82,10 +82,10 @@ public:
         return type;
     }
 private:
-    int height;
-    int width;
-    int depth;
-    TypePosition type;
+    int height = 0;
+    int width = 0;
+    int depth = 0;
+    TypePosition type = TypePosition::RemoteWarehouse;
 };
 
 string operator+(string st, TypePosition tp);

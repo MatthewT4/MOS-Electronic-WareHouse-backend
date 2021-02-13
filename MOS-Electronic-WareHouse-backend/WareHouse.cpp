@@ -1,9 +1,9 @@
 #include "WareHouse.h"
 #include <algorithm>
 
-bool operator<(Cell c1, Cell c2) {
+/*bool operator<(Cell c1, Cell c2) {
 	return c1.empty < c2.empty;
-}
+}*/
 struct ret {
 	int he = 0;
 	set<char> Posit;
@@ -44,7 +44,10 @@ ret CreateCell(std::vector<std::string> Vec) {
 	return r;
 }
 
-
+/*
+	1. Сделать конструктор с входной string InNameDB и инициализацией DB. 
+	2. Вынести алгоритм из WareHouse(POSTJSON data, string InNameDB) в отдельную функцию
+	3. Сделать Функцию добавления ячеек из POSTJSON через функцию из П.2*/
 WareHouse::WareHouse() {}
 /*{"size": {"size_x": 6, "size_y" : 3, "size_z" : 1},
 "merged" : [["A1", "A2"], ["B2", "B3"], ["C1", "C2"], ["D2", "D3"], ["E2", "E3", "F2", "F3"]] }*/

@@ -10,14 +10,13 @@
 struct Cell {
 	Cell() {}
 	Cell(bool Er) : Error(Er){}
-	Cell(TypePosition Intype, Position Inposit, vector<std::string> InVecCell) : type(Intype),
-								posit(Inposit), includeCell(InVecCell), empty(false) {}
-	bool empty = true;
-	TypePosition type;
+	Cell(TypePosition Intype, Position Inposit) : type(Intype), posit(Inposit) {}
+	//bool empty = true;
+	TypePosition type = TypePosition::RemoteWarehouse;
 	Position posit = Position("000"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	vector<std::string> includeCell;
+	//vector<std::string> includeCell;
 	bool Error = false;
-	int height;
+	int height = 0;
 	string NameCell = "";
 };
 

@@ -33,10 +33,11 @@ public:
         return Result;
     }*/
     bool InsertDBData(std::string GetData);
+    bool CheckingForValuesDB();
 private:
     sqlite3* db;
     char* zErrMsg = 0;
-    int rc;
+    int rc = 0;
     char* sql;
 };
 void TestDB();
