@@ -21,6 +21,7 @@
 
 #define THREAD_COUNT 8 
 #define SOCKET_PATH ":9000" 
+
 using namespace std;
 
 
@@ -28,11 +29,39 @@ using namespace std;
 int main()
 {
     std::string DBName = "WareHouse.db";
-    WareHouse wh(
+    WareHouse WH(DBName);
+    auto& i = WH.GetDB();
+    bool CreateNewTable = true;
+    if(i.CheckingForValuesDB()) {
+        std::cout << "The current warehouse configuration was detected." << endl
+            << "Do you want to create a new configuration? "
+            << "(The old warehouse configuration and data about stored items will be permanently deleted)"
+            << "[Y/n]: ";
+        string s;
+        cin >> s;
+        if (s != "Y") {
+            CreateNewTable = false;
+            cout << "The current warehouse configuration will be saved!" << endl;
+        }
+        else {
+            cout << "Creating a new configuration..." << endl;
+        }
+    }
+    if (CreateNewTable) {
+        cout << "We get the data and create a new warehouse configuration..." << endl;
+        if (WH.CreateDBTable(GetScheme("http://127.0.0.1/scheme", 5000))) {
+            cout << "The new warehouse configuration has been successfully created!" << endl;
+        }
+        else {
+            cout << "Error creating the warehouse configuration!" << endl;
+            exit(1);
+        }
+    }
+    /*WareHouse wh(
     GetScheme("http://127.0.0.1/scheme", 5000), DBName);
-    cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;
+    cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;*/
     GetScheme("http://127.0.0.1/scheme", 5000);
-    TestAll();
+    //TestAll();
     cout << "===========================================================================" << endl;
     cout << "Information:" << endl
         << "Server protocol: FactCGI\n"

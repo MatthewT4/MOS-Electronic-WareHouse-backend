@@ -11,10 +11,8 @@ struct Cell {
 	Cell() {}
 	Cell(bool Er) : Error(Er){}
 	Cell(TypePosition Intype, Position Inposit) : type(Intype), posit(Inposit) {}
-	//bool empty = true;
 	TypePosition type = TypePosition::RemoteWarehouse;
 	Position posit = Position("000"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//vector<std::string> includeCell;
 	bool Error = false;
 	int height = 0;
 	string NameCell = "";
@@ -25,6 +23,7 @@ bool operator<(Cell c1, Cell c2);
 class WareHouse {
 public:
 	WareHouse(); /*{}*/
+	WareHouse(std::string InDBName);
 	WareHouse(POSTJSON data, string DBName);
 	void AddElement(Cell ce);
 	/*{
@@ -42,11 +41,12 @@ public:
 			return Cell(true); // если элемент не найден, то возвращаем пустой Cell с флажком Error.
 		}
 	}*/
+	DataBase& GetDB();
+	bool CreateDBTable(POSTJSON data);
 private:
 	int heightWH = 0,
 		widthWH = 0,
 		depthWH = 0;
 	std::vector<std::vector<std::string>> vecCellNotSmall;
-	void CreateDBTable(std::vector<Cell> InVecCell);
 	DataBase db;
 };

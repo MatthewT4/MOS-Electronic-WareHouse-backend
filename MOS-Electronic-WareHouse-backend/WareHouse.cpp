@@ -45,13 +45,63 @@ ret CreateCell(std::vector<std::string> Vec) {
 }
 
 /*
-	1. Сделать конструктор с входной string InNameDB и инициализацией DB. 
-	2. Вынести алгоритм из WareHouse(POSTJSON data, string InNameDB) в отдельную функцию
+	++1. Сделать конструктор с входной string InNameDB и инициализацией DB. 
+	++2. Вынести алгоритм из WareHouse(POSTJSON data, string InNameDB) в отдельную функцию
 	3. Сделать Функцию добавления ячеек из POSTJSON через функцию из П.2*/
 WareHouse::WareHouse() {}
+WareHouse::WareHouse(std::string InDBName) {
+	db.ConnectToDB(InDBName);
+}
 /*{"size": {"size_x": 6, "size_y" : 3, "size_z" : 1},
 "merged" : [["A1", "A2"], ["B2", "B3"], ["C1", "C2"], ["D2", "D3"], ["E2", "E3", "F2", "F3"]] }*/
 WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), widthWH(data.size_x), heightWH(data.size_y), depthWH(data.size_z), vecCellNotSmall(data.vecAssociations) {
+	CreateDBTable(data);
+}
+DataBase& WareHouse::GetDB() {
+	return db;
+}
+void WareHouse::AddElement(Cell ce) {
+	//setWareHouse.insert(ce);
+}
+
+	//Создаём вектора для разных типов ячеек
+	/*vector<Cell> BigElem(InVecCell.size()), MidlElem(InVecCell.size()), 
+				 SmallElem(InVecCell.size()), RemoteElem(InVecCell.size());
+	//Делим элементы из одного типа вектора в разные
+	{
+		auto i = copy_if(InVecCell.begin(), InVecCell.end(), BigElem.begin(), [](Cell c) {
+			return c.type == TypePosition::Big;
+			});
+		BigElem.erase(i, BigElem.end());
+		i = copy_if(InVecCell.begin(), InVecCell.end(), MidlElem.begin(), [](Cell c) {
+			return c.type == TypePosition::Medium;
+			});
+		MidlElem.erase(i, MidlElem.end());
+		i = copy_if(InVecCell.begin(), InVecCell.end(), SmallElem.begin(), [](Cell c) {
+			return c.type == TypePosition::Small;
+			});
+		SmallElem.erase(i, SmallElem.end());
+		i = copy_if(InVecCell.begin(), InVecCell.end(), RemoteElem.begin(), [](Cell c) {
+			return c.type == TypePosition::RemoteWarehouse;
+			});
+		RemoteElem.erase(i, RemoteElem.end());
+	}*/
+/*
+void WareHouse::CreateDBTable(std::vector<Cell> InVecCell) { // пойдёт под insert позиций.
+	for (const auto& ce : InVecCell) {
+		std::string dbstr = "INSERT INTO WareHouse(TypeCell, PositionCell, HeightCell) VALUES (";
+		std::string Val = " \'" + ce.type + "\'" + ", " + "\'" + ce.NameCell + "\'" + ", "
+			+ to_string(ce.height) + ')';
+		dbstr += Val;
+		db.InsertDBData(dbstr);
+	}
+
+}*/
+bool WareHouse::CreateDBTable(POSTJSON data) { // пойдёт под insert позиций.
+	widthWH = data.size_x;  
+	heightWH = data.size_y; 
+	depthWH = data.size_z;
+	vecCellNotSmall = data.vecAssociations;
 	vector<Cell> VecCell;
 	int x = 1, y = 1;
 	while (x <= widthWH) {
@@ -97,44 +147,17 @@ WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), w
 		VecCell.push_back(cell);
 		
 	}
-	x++;
-	CreateDBTable(VecCell);
-}
-
-void WareHouse::AddElement(Cell ce) {
-	//setWareHouse.insert(ce);
-}
-
-void WareHouse::CreateDBTable(std::vector<Cell> InVecCell) { // пойдёт под insert позиций.
-	//Создаём вектора для разных типов ячеек
-	/*vector<Cell> BigElem(InVecCell.size()), MidlElem(InVecCell.size()), 
-				 SmallElem(InVecCell.size()), RemoteElem(InVecCell.size());
-	//Делим элементы из одного типа вектора в разные
-	{
-		auto i = copy_if(InVecCell.begin(), InVecCell.end(), BigElem.begin(), [](Cell c) {
-			return c.type == TypePosition::Big;
-			});
-		BigElem.erase(i, BigElem.end());
-		i = copy_if(InVecCell.begin(), InVecCell.end(), MidlElem.begin(), [](Cell c) {
-			return c.type == TypePosition::Medium;
-			});
-		MidlElem.erase(i, MidlElem.end());
-		i = copy_if(InVecCell.begin(), InVecCell.end(), SmallElem.begin(), [](Cell c) {
-			return c.type == TypePosition::Small;
-			});
-		SmallElem.erase(i, SmallElem.end());
-		i = copy_if(InVecCell.begin(), InVecCell.end(), RemoteElem.begin(), [](Cell c) {
-			return c.type == TypePosition::RemoteWarehouse;
-			});
-		RemoteElem.erase(i, RemoteElem.end());
-	}*/
-	for (const auto& ce : InVecCell) {
+	bool AddSuccesful = true;
+	for (const auto& ce : VecCell) {
 		std::string dbstr = "INSERT INTO WareHouse(TypeCell, PositionCell, HeightCell) VALUES (";
 		std::string Val = " \'" + ce.type + "\'" + ", " + "\'" + ce.NameCell + "\'" + ", "
 			+ to_string(ce.height) + ')';
 		dbstr += Val;
-		db.InsertDBData(dbstr);
+		if (!db.InsertDBData(dbstr)) {
+			AddSuccesful = false;
+		}
 	}
+	return AddSuccesful;
 
 }
 Cell WareHouse::GetElementToUUID(const string& uuid) { // выдача элемента по позиции.
