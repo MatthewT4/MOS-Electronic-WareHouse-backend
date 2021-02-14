@@ -79,6 +79,9 @@ public:
     TypePosition GetType() {
         return type;
     }
+    int GetHeight() { return height; }
+    int GetWidth() { return width; }
+    int GetDepth() { return depth; }
 private:
     int height = 0;
     int width = 0;
@@ -102,11 +105,21 @@ public:
     string GetUUid() {
         return uuid;
     }
+    TypePosition GetTypePosition() {
+        return sizeAndType.GetType();
+    }
+    int GetWeigt() { return weigt; }
+    int GetDepth() { return sizeAndType.GetDepth(); }
+    int GetHeight() { return sizeAndType.GetHeight(); }
+    int GetWidth() { return sizeAndType.GetWidth(); }
+    std::string GetName() { return name; }
+    std::string GetComment() { return comment; }
 private:
-    string name;
+    std::string name;
     int weigt;
     TypeAndSizePosition sizeAndType;
-    string uuid;
+    std::string uuid;
+    std::string comment = "";
 };
 void Test();
 /* unit test:

@@ -8,8 +8,12 @@
 #include <stdio.h>
 #include <regex>
 #include "DataBase.h"
+
+WareHouse vremWH;
+WareHouse& WH = vremWH;
 static void* doit(void* a)
 {
+    //char* buffer;
     int rc;
     FCGX_Request request;
     char* server_name;
@@ -60,24 +64,38 @@ static void* doit(void* a)
         FCGX_PutS("</head>\r\n", request.out);
         FCGX_PutS("<body>\r\n", request.out);*/
         if (method == "GET") {
+            //std::string api = InURL.substr(0, 4);
+            //std::string add = InURL.substr(4, 7);
+            if (InURL.substr(0, 4) == "/api") {
+                if (InURL.substr(4, 7) == "/add") {
+                    //WH.
+                }
+            }
             if (InURL == "/data" /*or OldMethod == "/data"*/) {
                 DataBase db("test.db");
                 std::string dataa = db.SelectData("SELECT * FROM WareHouse"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 FCGX_PutS(dataa.c_str(), request.out);
             }
-            else if (InURL == "/api/add") {
-                //POST data and Parsing
+            else if (InURL.substr(0, 7) == "/api/add") {
+                //POST data and Parsing 
+
             }
         }
         else if (method == "POST") { // Error on Windows, UNIX only!!! 
-            char* buffer = new char;
-            /*auto ii = FCGI_fgetc(FCGI_stdin);
-            cerr << "FCGI_fgetc(FCGI_stdin)" << ii;**/
+            /*/*auto ii = FCGI_fgetc(FCGI_stdin);
+            cerr << "FCGI_fgetc(FCGI_stdin)" << ii;*
             //delete buffer;
             SetConsoleCP(1251);
             SetConsoleOutputCP(1251);
             //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
-            FCGX_GetStr(buffer, int(FCGX_GetParam("CONTENT_LENGTH", request.envp)), request.in);
+            //FCGX_GetStr(buffer, FCGX_GetParam("CONTENT_LENGTH", request.envp), request.in);
+            int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
+            if (Max > 512) {
+                Max = 512;
+            }
+            Max++;
+            char* buffer = new char;
+            FCGX_GetStr(buffer, Max, request.in);
             std::string buf = buffer;
             //buf = buf[int(FCGX_GetParam("CONTENT_LENGTH", request.envp))];
             //std::string b = buffer; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -85,7 +103,7 @@ static void* doit(void* a)
             std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //std::cerr << "b: " << b << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             buffer = {};
-            delete buffer;
+            delete buffer;*/
         }
         //вывести все HTTP-заголовки (каждый заголовок с новой строки) 
         //между заголовками и телом ответа нужно вывести пустую строку 
@@ -97,7 +115,7 @@ static void* doit(void* a)
         FCGX_PutS("</html>\r\n", request.out);*/
 
         //"заснуть" - имитация многопоточной среды 
-        //Sleep(6000);
+        Sleep(2);
 
         //закрыть текущее соединение 
         FCGX_Finish_r(&request);
@@ -139,4 +157,7 @@ void FastMain(void)
         pthread_join(id[i], NULL);
     }
 
+}
+void CreareFCGIConnect(WareHouse& InWH) {
+    WH = InWH;
 }

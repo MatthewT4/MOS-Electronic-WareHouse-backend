@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "WareHouse.h"
 
 
 
@@ -13,3 +14,4 @@ static std::string OldMethod = "";
 
 static void* doit(void* a);
 void FastMain(void);
+void CreareFCGIConnect(WareHouse& InWH);

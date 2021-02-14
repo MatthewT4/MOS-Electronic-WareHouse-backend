@@ -20,12 +20,19 @@ struct Cell {
 
 bool operator<(Cell c1, Cell c2);
 
+struct CompleteAddElem {
+	std::string uuid;
+	bool complete;
+	std::string NamePosition;
+	std::string NameCell;
+};
+
 class WareHouse {
 public:
 	WareHouse(); /*{}*/
 	WareHouse(std::string InDBName);
 	WareHouse(POSTJSON data, string DBName);
-	void AddElement(Cell ce);
+	vector<CompleteAddElem> AddElements(std::vector<Position> ce);
 	/*{
 		setWareHouse.insert(ce);
 	}*/
@@ -44,6 +51,7 @@ public:
 	DataBase& GetDB();
 	bool CreateDBTable(POSTJSON data);
 private:
+	bool InsertDB(Position& pos);
 	int heightWH = 0,
 		widthWH = 0,
 		depthWH = 0;

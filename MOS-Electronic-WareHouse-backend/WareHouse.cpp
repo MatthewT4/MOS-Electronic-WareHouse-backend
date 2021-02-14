@@ -60,10 +60,69 @@ WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), w
 DataBase& WareHouse::GetDB() {
 	return db;
 }
-void WareHouse::AddElement(Cell ce) {
-	//setWareHouse.insert(ce);
-}
+vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) {
+	vector<CompleteAddElem> RetVecComplete;
+	 vector<Position> BigElem(InVecCell.size()), MidlElem(InVecCell.size()),
+		SmallElem(InVecCell.size()), RemoteElem(InVecCell.size());
+	//ƒелим элементы из одного типа вектора в разные
+	auto i = copy_if(InVecCell.begin(), InVecCell.end(), BigElem.begin(), [](Position c) {
+		return c.GetTypePosition() == TypePosition::Big;
+		});
+	BigElem.erase(i, BigElem.end());
+	i = copy_if(InVecCell.begin(), InVecCell.end(), MidlElem.begin(), [](Position c) {
+		return c.GetTypePosition() == TypePosition::Medium;
+		});
+	MidlElem.erase(i, MidlElem.end());
+	i = copy_if(InVecCell.begin(), InVecCell.end(), SmallElem.begin(), [](Position c) {
+		return c.GetTypePosition() == TypePosition::Small;
+		});
+	SmallElem.erase(i, SmallElem.end());
+	i = copy_if(InVecCell.begin(), InVecCell.end(), RemoteElem.begin(), [](Position c) {
+		return c.GetTypePosition() == TypePosition::RemoteWarehouse;
+		});
+	RemoteElem.erase(i, RemoteElem.end());
 
+	//—ортируем векторы, первый элемент - самый т€жЄлый.
+	sort(BigElem.begin(), BigElem.end(), [](Position c1, Position c2) {
+		return c1.GetWeigt() < c2.GetWeigt(); });
+	sort(MidlElem.begin(), MidlElem.end(), [](Position c1, Position c2) {
+		return c1.GetWeigt() < c2.GetWeigt(); });
+	sort(SmallElem.begin(), SmallElem.end(), [](Position c1, Position c2) {
+		return c1.GetWeigt() < c2.GetWeigt(); });
+	for (auto& El : BigElem) {
+
+	}
+	return RetVecComplete;
+}
+bool WareHouse::InsertDB(Position& pos) {
+	std::string dbstr, Val;
+	if (pos.GetComment() == "") {
+		dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
+		Val = "( SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE NOT (t1.PositionCell IN ( \
+			SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE(t1.PositionCell = t2.Position))) \
+			AND t1.TypeCell = 'Small' ORDER BY t1.HeightCell LIMIT 1), ";
+		Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
+			+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
+			+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
+			+ to_string(pos.GetWeigt()) + ')';
+		dbstr += Val;
+	}
+	else {
+		dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight, Comments) VALUES (";
+		Val = "( SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE NOT (t1.PositionCell IN ( \
+			SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE(t1.PositionCell = t2.Position))) \
+			AND t1.TypeCell = 'Small' ORDER BY t1.HeightCell LIMIT 1), ";
+		Val += "\'" + pos.GetUUid() + "\'" + ", "
+			+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
+			+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
+			+ to_string(pos.GetWeigt()) + ", " + "\'" + pos.GetComment() + "\'" + ')';
+			//+ to_string(ce.height) + ')';
+		dbstr += Val;
+	}
+	if (!db.InsertDBData(dbstr)) {
+		return false;
+	}
+}
 	//—оздаЄм вектора дл€ разных типов €чеек
 	/*vector<Cell> BigElem(InVecCell.size()), MidlElem(InVecCell.size()), 
 				 SmallElem(InVecCell.size()), RemoteElem(InVecCell.size());
