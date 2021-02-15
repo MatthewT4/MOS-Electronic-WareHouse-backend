@@ -34,11 +34,13 @@ public:
     }*/
     bool InsertDBData(std::string GetData);
     bool CheckingForValuesDB();
+    std::string GeSsqlError();
 private:
     sqlite3* db;
     char* zErrMsg = 0;
     int rc = 0;
     char* sql;
+    std::string sqlError;
 };
 void TestDB();
 /*

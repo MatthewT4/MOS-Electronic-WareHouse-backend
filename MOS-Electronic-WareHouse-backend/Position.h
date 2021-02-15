@@ -93,27 +93,19 @@ string operator+(string st, TypePosition tp);
 
 class Position {
 public:
-    Position(){}
-    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) : name(InName), weigt(InWeight), sizeAndType(InSizeAndType) {
-        //uuid = generateUUID()
-    }
-    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid) : name(InName),
-                                        weigt(InWeight), sizeAndType(InSizeAndType), uuid(InUuid) {
-        //uuid = generateUUID()
-    }
-    Position(string InUUID) : uuid(InUUID) {} //debug, delete continue!!!!!!
-    string GetUUid() {
-        return uuid;
-    }
-    TypePosition GetTypePosition() {
-        return sizeAndType.GetType();
-    }
-    int GetWeigt() { return weigt; }
-    int GetDepth() { return sizeAndType.GetDepth(); }
-    int GetHeight() { return sizeAndType.GetHeight(); }
-    int GetWidth() { return sizeAndType.GetWidth(); }
-    std::string GetName() { return name; }
-    std::string GetComment() { return comment; }
+    Position();
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType);
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid);
+    Position(string InUUID);//debug, delete continue!!!!!!
+    string GetUUid();
+    TypePosition GetTypePosition();
+    int GetWeigt();
+    int GetDepth();
+    int GetHeight();
+    int GetWidth();
+    std::string GetName();
+    std::string GetComment();
+
 private:
     std::string name;
     int weigt;

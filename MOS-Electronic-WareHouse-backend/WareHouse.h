@@ -21,6 +21,7 @@ struct Cell {
 bool operator<(Cell c1, Cell c2);
 
 struct CompleteAddElem {
+	CompleteAddElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell);
 	std::string uuid;
 	bool complete;
 	std::string NamePosition;
@@ -51,7 +52,7 @@ public:
 	DataBase& GetDB();
 	bool CreateDBTable(POSTJSON data);
 private:
-	bool InsertDB(Position& pos);
+	bool InsertDB(Position& pos, std::string type);
 	int heightWH = 0,
 		widthWH = 0,
 		depthWH = 0;

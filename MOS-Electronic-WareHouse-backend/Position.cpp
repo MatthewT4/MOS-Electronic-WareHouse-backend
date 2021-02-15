@@ -26,3 +26,25 @@ string operator+(string st, TypePosition tp) {
     }
     return st + tpTost;
 }
+
+Position::Position() {}
+Position::Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) : name(InName), weigt(InWeight), sizeAndType(InSizeAndType) {
+    //uuid = generateUUID()
+}
+Position::Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid) : name(InName),
+weigt(InWeight), sizeAndType(InSizeAndType), uuid(InUuid) {
+    //uuid = generateUUID()
+}
+Position::Position(string InUUID) : uuid(InUUID) {} //debug, delete continue!!!!!!
+string Position::GetUUid() {
+    return uuid;
+}
+TypePosition Position::GetTypePosition() {
+    return sizeAndType.GetType();
+}
+int Position::GetWeigt() { return weigt; }
+int Position::GetDepth() { return sizeAndType.GetDepth(); }
+int Position::GetHeight() { return sizeAndType.GetHeight(); }
+int Position::GetWidth() { return sizeAndType.GetWidth(); }
+std::string Position::GetName() { return name; }
+std::string Position::GetComment() { return comment; }

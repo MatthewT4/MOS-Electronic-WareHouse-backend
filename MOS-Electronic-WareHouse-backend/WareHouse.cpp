@@ -4,6 +4,9 @@
 /*bool operator<(Cell c1, Cell c2) {
 	return c1.empty < c2.empty;
 }*/
+CompleteAddElem::CompleteAddElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell)
+	: uuid(InUuid), complete(Incomplete), NamePosition(InNamePosition), NameCell(InNameCell) {};
+
 struct ret {
 	int he = 0;
 	set<char> Posit;
@@ -90,34 +93,73 @@ vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) 
 	sort(SmallElem.begin(), SmallElem.end(), [](Position c1, Position c2) {
 		return c1.GetWeigt() < c2.GetWeigt(); });
 	for (auto& El : BigElem) {
-
+		if (!InsertDB(El, "" + El.GetTypePosition())) {
+			std::string TypePP = "" + El.GetTypePosition();
+			bool flag = false;
+			while (!flag and TypePP != "RemoteWarehouse") {
+				if (TypePP == "Small") { TypePP = "Medium"; }
+				else if (TypePP == "Medium") { TypePP = "Big"; }
+				else if (TypePP == "Big") { TypePP = "RemoteWarehouse"; }
+				flag = InsertDB(El, TypePP);
+			}
+			if (!flag) {
+				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
+				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+			}
+			else { //delete continion...
+				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			}
+		}
 	}
 	return RetVecComplete;
 }
-bool WareHouse::InsertDB(Position& pos) {
+bool WareHouse::InsertDB(Position& pos, std::string type) {
 	std::string dbstr, Val;
-	if (pos.GetComment() == "") {
-		dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
-		Val = "( SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE NOT (t1.PositionCell IN ( \
+	if (type != "RemoteWarehouse") {
+		if (pos.GetComment() == "") {
+			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
+			Val = "( SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE NOT (t1.PositionCell IN ( \
 			SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE(t1.PositionCell = t2.Position))) \
-			AND t1.TypeCell = 'Small' ORDER BY t1.HeightCell LIMIT 1), ";
-		Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
-			+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
-			+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
-			+ to_string(pos.GetWeigt()) + ')';
-		dbstr += Val;
+			AND t1.TypeCell = \'" + type + "\' ORDER BY t1.HeightCell LIMIT 1), ";
+			Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
+				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
+				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
+				+ to_string(pos.GetWeigt()) + ')';
+			dbstr += Val;
+		}
+		else {
+			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight, Comments) VALUES (";
+			Val = "( SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE NOT (t1.PositionCell IN ( \
+			SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE(t1.PositionCell = t2.Position))) \
+			AND t1.TypeCell = \'" + type + "\' ORDER BY t1.HeightCell LIMIT 1), ";
+			Val += "\'" + pos.GetUUid() + "\'" + ", "
+				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
+				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
+				+ to_string(pos.GetWeigt()) + ", " + "\'" + pos.GetComment() + "\'" + ')';
+			//+ to_string(ce.height) + ')';
+			dbstr += Val;
+		}
 	}
 	else {
-		dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight, Comments) VALUES (";
-		Val = "( SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE NOT (t1.PositionCell IN ( \
-			SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE(t1.PositionCell = t2.Position))) \
-			AND t1.TypeCell = 'Small' ORDER BY t1.HeightCell LIMIT 1), ";
-		Val += "\'" + pos.GetUUid() + "\'" + ", "
-			+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
-			+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
-			+ to_string(pos.GetWeigt()) + ", " + "\'" + pos.GetComment() + "\'" + ')';
+		if (pos.GetComment() == "") {
+			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
+			Val = "( SELECT PositionCell FROM WareHouse WHERE TypeCell = 'RemoteWarehouse' LIMIT 1), ";
+			Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
+				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
+				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
+				+ to_string(pos.GetWeigt()) + ')';
+			dbstr += Val;
+		}
+		else {
+			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight, Comments) VALUES (";
+			Val = "( SELECT PositionCell FROM WareHouse WHERE TypeCell = 'RemoteWarehouse' LIMIT 1), ";
+			Val += "\'" + pos.GetUUid() + "\'" + ", "
+				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
+				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
+				+ to_string(pos.GetWeigt()) + ", " + "\'" + pos.GetComment() + "\'" + ')';
 			//+ to_string(ce.height) + ')';
-		dbstr += Val;
+			dbstr += Val;
+		}
 	}
 	if (!db.InsertDBData(dbstr)) {
 		return false;

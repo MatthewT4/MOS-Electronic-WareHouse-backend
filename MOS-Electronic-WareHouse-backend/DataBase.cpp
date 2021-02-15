@@ -123,9 +123,13 @@ bool DataBase::InsertDBData(std::string GetData) {
     if (rc != SQLITE_OK) {
         // fprintf(stderr, "[SQL error]: ", zErrMsg);
         std::cerr << "[SQL error](InsertDBData): " << zErrMsg << std::endl;
+        sqlError = zErrMsg;
         return false;
     }
     return true;
+}
+std::string DataBase::GeSsqlError() {
+    return sqlError;
 }
 void TestDB() {
     DataBase db("test.db");
