@@ -8,11 +8,17 @@
 #include <stdio.h>
 #include <regex>
 #include "DataBase.h"
+#include "WareHouse.h"
+#include "JSON.h"
 
-WareHouse vremWH;
-WareHouse& WH = vremWH;
+static std::string NameDB = "";
+void CreareFCGIConnect(string InWH) {
+    NameDB = InWH;
+    FastMain();
+}
 static void* doit(void* a)
 {
+    WareHouse WH(NameDB);
     //char* buffer;
     int rc;
     FCGX_Request request;
@@ -90,31 +96,23 @@ static void* doit(void* a)
             }
         }
         else if (method == "POST") { // Error on Windows, UNIX only!!! 
-            try {
-                //auto ii = FCGI_fgetc(FCGI_stdin);
-                //cerr << "FCGI_fgetc(FCGI_stdin)" << ii; *
-                    //delete buffer;
-                    SetConsoleCP(1251);
-                SetConsoleOutputCP(1251);
-                //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
-                //FCGX_GetStr(buffer, FCGX_GetParam("CONTENT_LENGTH", request.envp), request.in);
-                int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
-                if (Max > 512) {
-                    Max = 512;
-                }
-                Max++;
-                char *buffer = new char[Max];
-                FCGX_GetStr(buffer, Max, request.in);
-                std::string buf = buffer;
-                //buf = buf[int(FCGX_GetParam("CONTENT_LENGTH", request.envp))];
-                //std::string b = buffer; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //std::cerr << "b: " << b << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //buffer = {};
-                delete[] buffer;
-            }
-            catch (exception ex) { cout << endl << "Error Ok" << endl; }
+            //auto ii = FCGI_fgetc(FCGI_stdin);
+            //cerr << "FCGI_fgetc(FCGI_stdin)" << ii; *
+                //delete buffer;
+            SetConsoleCP(1251);
+            SetConsoleOutputCP(1251);
+            //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
+            //FCGX_GetStr(buffer, FCGX_GetParam("CONTENT_LENGTH", request.envp), request.in);
+            int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
+            Sleep(300);
+            char* buffer = new char[Max];
+            FCGX_GetStr(buffer, Max, request.in);
+            std::string buf = buffer;
+            buf = buf.substr(0, Max);
+            std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            delete[] buffer;
+            WH.AddElements(GetPositionFromJSON(buf));
         }
         //вывести все HTTP-заголовки (каждый заголовок с новой строки) 
         //между заголовками и телом ответа нужно вывести пустую строку 
@@ -168,7 +166,4 @@ void FastMain(void)
         pthread_join(id[i], NULL);
     }
 
-}
-void CreareFCGIConnect(WareHouse& InWH) {
-    WH = InWH;
 }

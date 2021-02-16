@@ -4,6 +4,7 @@
 #include <exception>
 #include "HTTP.h"
 #include "JSON.h"
+#include "Position.h"
 
 
 using json = nlohmann::json;
@@ -37,4 +38,19 @@ POSTJSON GetScheme(const std::string& ip, const int& PORT) {
         exit(1);
     }
     return post;
+}
+//{'body' = [{'name', 'uuid', height, width,}]}
+std::vector<Position> GetPositionFromJSON(std::string strJson) {
+    std::vector<Position> VecPos;
+    json JSON = json::parse(strJson);
+    json body = JSON["body"];
+    size_t Count = body.size();
+    for (size_t i = 0; i < Count; i++) {
+        Position VrPos(body[i]["Name"], body[i]["Weight"], 
+            TypeAndSizePosition(body[i]["Height"], body[i]["Width"], body[i]["Depth"]), body[i]["UUID"]);
+        VecPos.push_back(VrPos);
+    }
+    return VecPos;
+    //json body = JSON["body"][0]["name"];
+
 }

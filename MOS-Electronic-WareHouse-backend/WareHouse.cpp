@@ -111,6 +111,63 @@ vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) 
 			}
 		}
 	}
+	for (auto& El : MidlElem) {
+		if (!InsertDB(El, "" + El.GetTypePosition())) {
+			std::string TypePP = "" + El.GetTypePosition();
+			bool flag = false;
+			while (!flag and TypePP != "RemoteWarehouse") {
+				if (TypePP == "Small") { TypePP = "Medium"; }
+				else if (TypePP == "Medium") { TypePP = "Big"; }
+				else if (TypePP == "Big") { TypePP = "RemoteWarehouse"; }
+				flag = InsertDB(El, TypePP);
+			}
+			if (!flag) {
+				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
+				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+			}
+			else { //delete continion...
+				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			}
+		}
+	}
+	for (auto& El : SmallElem) {
+		if (!InsertDB(El, "" + El.GetTypePosition())) {
+			std::string TypePP = "" + El.GetTypePosition();
+			bool flag = false;
+			while (!flag and TypePP != "RemoteWarehouse") {
+				if (TypePP == "Small") { TypePP = "Medium"; }
+				else if (TypePP == "Medium") { TypePP = "Big"; }
+				else if (TypePP == "Big") { TypePP = "RemoteWarehouse"; }
+				flag = InsertDB(El, TypePP);
+			}
+			if (!flag) {
+				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
+				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+			}
+			else { //delete continion...
+				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			}
+		}
+	}
+	for (auto& El : RemoteElem) {
+		if (!InsertDB(El, "" + El.GetTypePosition())) {
+			std::string TypePP = "" + El.GetTypePosition();
+			bool flag = false;
+			while (!flag and TypePP != "RemoteWarehouse") {
+				if (TypePP == "Small") { TypePP = "Medium"; }
+				else if (TypePP == "Medium") { TypePP = "Big"; }
+				else if (TypePP == "Big") { TypePP = "RemoteWarehouse"; }
+				flag = InsertDB(El, TypePP);
+			}
+			if (!flag) {
+				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
+				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+			}
+			else { //delete continion...
+				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			}
+		}
+	}
 	return RetVecComplete;
 }
 bool WareHouse::InsertDB(Position& pos, std::string type) {
@@ -164,6 +221,7 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 	if (!db.InsertDBData(dbstr)) {
 		return false;
 	}
+	return true;
 }
 	//—оздаЄм вектора дл€ разных типов €чеек
 	/*vector<Cell> BigElem(InVecCell.size()), MidlElem(InVecCell.size()), 

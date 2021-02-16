@@ -12,6 +12,6 @@
 static int socketId;
 static std::string OldMethod = "";
 
+void CreareFCGIConnect(string InWH);
 static void* doit(void* a);
 void FastMain(void);
-void CreareFCGIConnect(WareHouse& InWH);
