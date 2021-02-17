@@ -23,12 +23,12 @@ static bool CheckInt(const char& ch) {
 ret CreateCell(std::vector<std::string> Vec) {
 	ret r;
 	for (auto i : Vec) {
-		/*while (!CheckInt(i[0])) {
-			i.erase(0, 1);
-		}
-		if (int(i) < r.he) {
+		//while (!CheckInt(i[0])) {
+		//	i.erase(0, 1);
+		//}
+		//if (int(i) < r.he) {
 
-		}*/
+		//}
 		int val = 0;
 		for (auto c : i) {
 			if (CheckInt(c)) {
@@ -47,10 +47,6 @@ ret CreateCell(std::vector<std::string> Vec) {
 	return r;
 }
 
-/*
-	++1. Сделать конструктор с входной string InNameDB и инициализацией DB. 
-	++2. Вынести алгоритм из WareHouse(POSTJSON data, string InNameDB) в отдельную функцию
-	3. Сделать Функцию добавления ячеек из POSTJSON через функцию из П.2*/
 WareHouse::WareHouse() {}
 WareHouse::WareHouse(std::string InDBName) {
 	db.ConnectToDB(InDBName);
@@ -176,7 +172,7 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 		if (pos.GetComment() == "") {
 			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
 			Val = "( SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE NOT (t1.PositionCell IN ( \
-			SELECT t1.PositionCell FROM WHTest t1, PosTest t2 WHERE(t1.PositionCell = t2.Position))) \
+			SELECT t1.PositionCell FROM WareHouse t1, WareHouse t2 WHERE(t1.PositionCell = t2.Position))) \
 			AND t1.TypeCell = \'" + type + "\' ORDER BY t1.HeightCell LIMIT 1), ";
 			Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
 				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
@@ -285,12 +281,12 @@ bool WareHouse::CreateDBTable(POSTJSON data) { // пойдёт под insert позиций.
 			cell.type = TypePosition::Big;
 		}
 		auto Ccell = CreateCell(vec);
+		/*
 		for (const auto& NCh : Ccell.Posit) {
 			cell.NameCell += NCh;
 		}
 		std::string stri = "", 
 					integ = "";
-
 		for (const auto& st : cell.NameCell) {
 			if (CheckInt(st)) {
 				integ += st;
@@ -298,8 +294,13 @@ bool WareHouse::CreateDBTable(POSTJSON data) { // пойдёт под insert позиций.
 			else {
 				stri += st;
 			}
+		}*/
+		string VName = "";
+		for (const auto& i : vec) {
+			VName += i;
 		}
-		cell.NameCell = stri + integ;
+		//cell.NameCell = stri + integ;
+		cell.NameCell = VName;
 		cell.height = heightWH - Ccell.he + 1;
 		/*cout << "Height: " << cell.height << endl
 			<< "NameCell: " << cell.NameCell << endl;*/

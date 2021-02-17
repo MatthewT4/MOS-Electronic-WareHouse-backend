@@ -3,17 +3,11 @@
 #include <exception>
 std::string Result = "";
 static bool Che = false;
+/*Проверяет, являются ли все символы строки цифрами
+    return:
+    true - все символы строки цифры
+    false - в строке есть другие символы, кроме цифр*/
 static bool IsInt(std::string Val) {
-    /*try {
-        std::stringstream ss;
-        int a;
-        ss << Val;
-        ss >> a;
-        return true;
-    }
-    catch (_exception ex) {
-        return false;
-    }*/
     std::string Valid = "1234567890";
     bool C = false;
     for (const auto& i : Val) {
@@ -30,6 +24,7 @@ static bool IsInt(std::string Val) {
     return true;
 }
 
+/*Принимает значение из базы данных и вовращает в виде JSON отрезка*/
 static int SelectCallback(void* NotUsed, int argc, char** argv, char** azColName) {
     int i;
     std::string Value;
@@ -40,7 +35,6 @@ static int SelectCallback(void* NotUsed, int argc, char** argv, char** azColName
     Result += "{";
     bool ch = false;
     for (i = 0; i < argc; i++) {
-        //Result += "%s = %s\n" + azColName[i] + argv[i] ? argv[i] : "NULL";
         if (ch) {
             Result += ", ";
         }
@@ -61,14 +55,14 @@ static int SelectCallback(void* NotUsed, int argc, char** argv, char** azColName
             Result += '"';
 
         }
-        //Result += (argv[i] ? argv[i] : "NULL");
     }
     Result += "}";
     return 0;
 }
-
+/*конструктор класса без объявляния переменных
+и входных данных.*/
 DataBase::DataBase() {}
-
+/*Фу===Реконнект к базе данных*/
 void DataBase::ConnectToDB(std::string DBName) {
     sqlite3_close(db);
     rc = sqlite3_open(DBName.c_str(), &db);
@@ -76,17 +70,19 @@ void DataBase::ConnectToDB(std::string DBName) {
         throw std::domain_error("Can't open database:" + *sqlite3_errmsg(db));
     }
 }
-
+/*Конструктор класса с открытием базы данных.*/
 DataBase::DataBase(std::string DBName) {
     rc = sqlite3_open(DBName.c_str(), &db);
     if (rc) {
         throw std::domain_error("Can't open database:" + *sqlite3_errmsg(db));
     }
 };
+/*Деструктор класса с закрытием БД*/
 DataBase::~DataBase() {
     sqlite3_free(zErrMsg);
     sqlite3_close(db);
 }
+/*Получение данных из запроса и генерация JSON из них*/
 std::string DataBase::SelectData(std::string GetData) {
     Result = "{";
     Result += "\"status\": 200, \"body\": [";
@@ -101,7 +97,7 @@ std::string DataBase::SelectData(std::string GetData) {
         return "{\"status\": 404}";
     }
     return Result;
-}
+}/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 bool DataBase::CheckingForValuesDB() { //Если записи ячеек склада есть в БД return true, если нет - false;
     const char* sql = "SELECT * FROM WareHouse WHERE NOT (PositionCell = 'RemoteWarehouse') LIMIT 3";
     Result = "";
@@ -116,7 +112,11 @@ bool DataBase::CheckingForValuesDB() { //Если записи ячеек склада есть в БД retu
     }
     return true;
 }
-
+/*Добавление данных а БД,
+    return:
+    true - успешно
+    false - ошибка
+    Ошибка записывается в переменную sqlError класса DataBase*/
 bool DataBase::InsertDBData(std::string GetData) {
     const char* sql = GetData.c_str();
     rc = sqlite3_exec(db, sql, SelectCallback, 0, &zErrMsg);

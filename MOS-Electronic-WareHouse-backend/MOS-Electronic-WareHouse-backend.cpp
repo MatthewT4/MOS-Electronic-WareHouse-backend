@@ -28,7 +28,7 @@ using namespace std;
 
 int main()
 {
-    std::string DBName = "WareHouse.db";
+    std::string DBName = "WareHouse";
     {
         WareHouse WH(DBName);
         auto& i = WH.GetDB();
@@ -48,7 +48,7 @@ int main()
                 cout << "Creating a new configuration..." << endl;
             }
         }
-        if (CreateNewTable) {
+        /*if (CreateNewTable) {
             cout << "We get the data and create a new warehouse configuration..." << endl;
             if (WH.CreateDBTable(GetScheme("http://127.0.0.1/scheme", 5000))) {
                 cout << "The new warehouse configuration has been successfully created!" << endl;
@@ -57,11 +57,11 @@ int main()
                 cout << "Error creating the warehouse configuration!" << endl;
                 exit(1);
             }
-        }
+        }*/
         /*WareHouse wh(
         GetScheme("http://127.0.0.1/scheme", 5000), DBName);
         cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;*/
-        GetScheme("http://127.0.0.1/scheme", 5000);
+        //GetScheme("http://127.0.0.1/scheme", 5000);
         //TestAll();
     }
     cout << "===========================================================================" << endl;
