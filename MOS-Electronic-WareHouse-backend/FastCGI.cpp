@@ -82,10 +82,10 @@ static void* doit(void* a)
                 }
             }
             if (InURL == "/data" /*or OldMethod == "/data"*/) {
-                DataBase db("test.db");
+                //DataBase db("WareHouse.db");
                 //std::string dataa = db.SelectData("SELECT * FROM WareHouse"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 //std::string dataa = db.SelectData("Select Po2.UUID, Po2.Name, Po2.Height, Po2.Width, Po2.Depth, Po2.Weight, Po2.Comments, WH1.PositionCell FROM WareHouse WH1 INNER JOIN Positions Po2 ON WH1.PositionCell = Po2.Position WHERE NOT Po2.Name = 'RemoteWarehouse'"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
-                std::string dataa = db.SelectData("SELECT * FROM TEST"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
+                std::string dataa = WH.GetDB().SelectData("Select Po2.UUID, Po2.Name, Po2.Height, Po2.Width, Po2.Depth, Po2.Weight, Po2.Comments, WH1.PositionCell FROM WareHouse WH1 INNER JOIN Positions Po2 ON WH1.PositionCell = Po2.Position WHERE NOT Po2.Name = 'RemoteWarehouse'"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 FCGX_PutS(dataa.c_str(), request.out);
             }
             else if (InURL.substr(0, 7) == "/api/add") {

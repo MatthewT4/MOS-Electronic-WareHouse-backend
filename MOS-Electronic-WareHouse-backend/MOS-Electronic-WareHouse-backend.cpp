@@ -28,7 +28,7 @@ using namespace std;
 
 int main()
 {
-    std::string DBName = "WareHouse";
+    std::string DBName = "WareHouse.db";
     {
         WareHouse WH(DBName);
         auto& i = WH.GetDB();
