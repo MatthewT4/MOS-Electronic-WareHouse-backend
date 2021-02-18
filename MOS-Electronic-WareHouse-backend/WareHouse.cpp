@@ -4,7 +4,7 @@
 /*bool operator<(Cell c1, Cell c2) {
 	return c1.empty < c2.empty;
 }*/
-CompleteAddElem::CompleteAddElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell)
+CompleteFuncElem::CompleteFuncElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell)
 	: uuid(InUuid), complete(Incomplete), NamePosition(InNamePosition), NameCell(InNameCell) {};
 
 struct ret {
@@ -59,8 +59,8 @@ WareHouse::WareHouse(POSTJSON data, string InNameDB) : db(DataBase(InNameDB)), w
 DataBase& WareHouse::GetDB() {
 	return db;
 }
-vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) {
-	vector<CompleteAddElem> RetVecComplete;
+vector<CompleteFuncElem> WareHouse::AddElements(std::vector<Position> InVecCell) {
+	vector<CompleteFuncElem> RetVecComplete;
 	 vector<Position> BigElem(InVecCell.size()), MidlElem(InVecCell.size()),
 		SmallElem(InVecCell.size()), RemoteElem(InVecCell.size());
 	//Делим элементы из одного типа вектора в разные
@@ -100,7 +100,7 @@ vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) 
 			}
 			if (!flag) {
 				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
-				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+				RetVecComplete.push_back(CompleteFuncElem(El.GetUUid(), false, El.GetName(), "Error"));
 			}
 			else { //delete continion...
 				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -119,7 +119,7 @@ vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) 
 			}
 			if (!flag) {
 				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
-				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+				RetVecComplete.push_back(CompleteFuncElem(El.GetUUid(), false, El.GetName(), "Error"));
 			}
 			else { //delete continion...
 				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -138,7 +138,7 @@ vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) 
 			}
 			if (!flag) {
 				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
-				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+				RetVecComplete.push_back(CompleteFuncElem(El.GetUUid(), false, El.GetName(), "Error"));
 			}
 			else { //delete continion...
 				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -157,7 +157,7 @@ vector<CompleteAddElem> WareHouse::AddElements(std::vector<Position> InVecCell) 
 			}
 			if (!flag) {
 				cout << "[SQL Error](WareHouse::AddElements): " << db.GeSsqlError() << endl;
-				RetVecComplete.push_back(CompleteAddElem(El.GetUUid(), false, El.GetName(), "Error"));
+				RetVecComplete.push_back(CompleteFuncElem(El.GetUUid(), false, El.GetName(), "Error"));
 			}
 			else { //delete continion...
 				cout << "[SQL OK](WareHouse::AddElements)" << endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -174,7 +174,7 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 			Val = "( SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE NOT (t1.PositionCell IN ( \
 			SELECT t1.PositionCell FROM WareHouse t1, WareHouse t2 WHERE(t1.PositionCell = t2.Position))) \
 			AND t1.TypeCell = \'" + type + "\' ORDER BY t1.HeightCell LIMIT 1), ";
-			Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
+			Val += pos.GetUUid() + "\'" + ", "
 				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
 				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
 				+ to_string(pos.GetWeigt()) + ')';
@@ -197,7 +197,7 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 		if (pos.GetComment() == "") {
 			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
 			Val = "( SELECT PositionCell FROM WareHouse WHERE TypeCell = 'RemoteWarehouse' LIMIT 1), ";
-			Val += " \'" + pos.GetTypePosition() + "\'" + ", " + "\'" + pos.GetUUid() + "\'" + ", "
+			Val += "\'" + pos.GetUUid() + "\'" + ", "
 				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
 				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
 				+ to_string(pos.GetWeigt()) + ')';
@@ -330,4 +330,8 @@ Cell WareHouse::GetElementToUUID(const string& uuid) { // выдача элемента по поз
 	else {*/
 		return Cell(true); // если элемент не найден, то возвращаем пустой Cell с флажком Error.
 	//}
+}
+
+vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> Vec) {
+	string Body = "";
 }

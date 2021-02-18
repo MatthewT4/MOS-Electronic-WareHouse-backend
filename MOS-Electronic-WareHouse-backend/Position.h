@@ -96,6 +96,7 @@ public:
     Position();
     Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType);
     Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid);
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid, string InComment);
     Position(string InUUID);//debug, delete continue!!!!!!
     string GetUUid();
     TypePosition GetTypePosition();

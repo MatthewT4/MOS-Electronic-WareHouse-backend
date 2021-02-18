@@ -14,27 +14,20 @@ public:
     DataBase();
     
     void ConnectToDB(std::string DBName);
+
     DataBase(std::string DBName);
-    /*{
-        rc = sqlite3_open(DBName.c_str(), &db);
-        if (rc) {
-            throw std::domain_error("Can't open database:" + *sqlite3_errmsg(db));
-        }
-    }*/
+
     ~DataBase();
-        /*{
-        sqlite3_free(zErrMsg);
-        sqlite3_close(db);
-    }*/
+
     std::string SelectData(std::string GetData); 
-    /*{
-        const char* sql = GetData.c_str();
-        rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-        return Result;
-    }*/
+
     bool InsertDBData(std::string GetData);
+
     bool CheckingForValuesDB();
+
     std::string GeSsqlError();
+
+
 private:
     sqlite3* db;
     char* zErrMsg = 0;

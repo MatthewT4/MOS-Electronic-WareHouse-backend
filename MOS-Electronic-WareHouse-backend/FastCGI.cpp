@@ -87,7 +87,7 @@ static void* doit(void* a)
                 //std::string dataa = db.SelectData("Select Po2.UUID, Po2.Name, Po2.Height, Po2.Width, Po2.Depth, Po2.Weight, Po2.Comments, WH1.PositionCell FROM WareHouse WH1 INNER JOIN Positions Po2 ON WH1.PositionCell = Po2.Position WHERE NOT Po2.Name = 'RemoteWarehouse'"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 std::string dataa = WH.GetDB().SelectData("Select Po2.UUID, Po2.Name, Po2.Height, Po2.Width, Po2.Depth, Po2.Weight, Po2.Comments, WH1.PositionCell FROM WareHouse WH1 INNER JOIN Positions Po2 ON WH1.PositionCell = Po2.Position WHERE NOT Po2.Name = 'RemoteWarehouse'"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 FCGX_PutS(dataa.c_str(), request.out);
-            }
+            }/*
             else if (InURL.substr(0, 7) == "/api/add") {
                 //POST data and Parsing 
                 string zapr = "";
@@ -95,26 +95,36 @@ static void* doit(void* a)
                     zapr += *iter;
                 }
                 cout << zapr;
-            }
+            }*/
         }
         else if (method == "POST") { 
-            //auto ii = FCGI_fgetc(FCGI_stdin);
-            //cerr << "FCGI_fgetc(FCGI_stdin)" << ii; *
-                //delete buffer;
-            SetConsoleCP(1251);
-            SetConsoleOutputCP(1251);
-            //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
-            //FCGX_GetStr(buffer, FCGX_GetParam("CONTENT_LENGTH", request.envp), request.in);
-            int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
-            Sleep(300);
-            char* buffer = new char[Max];
-            FCGX_GetStr(buffer, Max, request.in);
-            std::string buf = buffer;
-            buf = buf.substr(0, Max);
-            std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            delete[] buffer;
-            WH.AddElements(GetPositionFromJSON(buf));
+            if (InURL.substr(0, 4) == "/api") {
+                int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
+                Sleep(300);
+                char* buffer = new char[Max];
+                FCGX_GetStr(buffer, Max, request.in);
+                std::string buf = buffer;
+                buf = buf.substr(0, Max);
+                delete[] buffer;
+                if (InURL.substr(4, 4) == "/add") {
+                    SetConsoleCP(1251);
+                    SetConsoleOutputCP(1251);
+                    //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
+                    //FCGX_GetStr(buffer, FCGX_GetParam("CONTENT_LENGTH", request.envp), request.in);
+                    /*int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
+                    Sleep(300);
+                    char* buffer = new char[Max];
+                    FCGX_GetStr(buffer, Max, request.in);
+                    std::string buf = buffer;
+                    buf = buf.substr(0, Max);*/
+                    std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    WH.AddElements(GetAddPositionFromJSON(buf));
+                }
+                else if (InURL.substr(4, 6) == "/issue") {
+
+                }
+            }
         }
         //вывести все HTTP-заголовки (каждый заголовок с новой строки) 
         //между заголовками и телом ответа нужно вывести пустую строку 

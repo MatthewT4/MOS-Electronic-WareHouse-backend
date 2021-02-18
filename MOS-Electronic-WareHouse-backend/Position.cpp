@@ -35,6 +35,10 @@ Position::Position(string InName, int InWeight, TypeAndSizePosition InSizeAndTyp
 weigt(InWeight), sizeAndType(InSizeAndType), uuid(InUuid) {
     //uuid = generateUUID()
 }
+Position::Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid, string InComment) : name(InName),
+weigt(InWeight), sizeAndType(InSizeAndType), uuid(InUuid), comment(InComment){
+    //uuid = generateUUID()
+}
 Position::Position(string InUUID) : uuid(InUUID) {} //debug, delete continue!!!!!!
 string Position::GetUUid() {
     return uuid;

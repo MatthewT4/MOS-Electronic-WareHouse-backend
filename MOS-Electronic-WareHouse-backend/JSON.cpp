@@ -8,7 +8,7 @@
 
 
 using json = nlohmann::json;
-
+/*Парсинг схемы склада из JSON, полученного от удалённого сервера*/
 POSTJSON GetScheme(const std::string& ip, const int& PORT) {
     POSTJSON post;
     try {
@@ -40,17 +40,25 @@ POSTJSON GetScheme(const std::string& ip, const int& PORT) {
     return post;
 }
 //{'body' = [{'name', 'uuid', height, width,}]}
-std::vector<Position> GetPositionFromJSON(std::string strJson) {
+/*Парсинг в вектор Position для добавления позиций из JSON. */
+std::vector<Position> GetAddPositionFromJSON(std::string strJson) {
     std::vector<Position> VecPos;
     json JSON = json::parse(strJson);
     json body = JSON["body"];
     size_t Count = body.size();
     for (size_t i = 0; i < Count; i++) {
         Position VrPos(body[i]["Name"], body[i]["Weight"], 
-            TypeAndSizePosition(body[i]["Height"], body[i]["Width"], body[i]["Depth"]), body[i]["UUID"]);
+            TypeAndSizePosition(body[i]["Height"], body[i]["Width"], body[i]["Depth"]), body[i]["UUID"]); //comment!!
         VecPos.push_back(VrPos);
     }
     return VecPos;
     //json body = JSON["body"][0]["name"];
 
+}
+
+/*Парсинг в вектор UUID элементов для выдачи из JSON.*/
+vector<string> GetIssuePositionFromJSON(std::string strJson) {
+    json JSON = json::parse(strJson);
+    //vector<string> Vec = JSON;
+    return JSON;
 }
