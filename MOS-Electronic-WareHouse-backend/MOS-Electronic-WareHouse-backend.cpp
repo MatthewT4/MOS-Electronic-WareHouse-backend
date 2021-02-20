@@ -27,7 +27,16 @@ using namespace std;
 
 
 int main()
+
 {
+    cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;
+    cout << "===========================================================================" << endl;
+    cout << "Information:" << endl
+        << "Server protocol: FactCGI\n"
+        << "Debug:" << false << endl
+        << "Configuration:" << true << endl;
+    cout << "===========================================================================" << endl;
+    cout << "Starting server..........." << endl;
     std::string DBName = "WareHouse.db";
     {
         WareHouse WH(DBName);
@@ -48,7 +57,7 @@ int main()
                 cout << "Creating a new configuration..." << endl;
             }
         }
-        /*if (CreateNewTable) {
+        if (CreateNewTable) {
             cout << "We get the data and create a new warehouse configuration..." << endl;
             if (WH.CreateDBTable(GetScheme("http://127.0.0.1/scheme", 5000))) {
                 cout << "The new warehouse configuration has been successfully created!" << endl;
@@ -57,20 +66,13 @@ int main()
                 cout << "Error creating the warehouse configuration!" << endl;
                 exit(1);
             }
-        }*/
+        }
         /*WareHouse wh(
         GetScheme("http://127.0.0.1/scheme", 5000), DBName);
         cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;*/
         //GetScheme("http://127.0.0.1/scheme", 5000);
         //TestAll();
     }
-    cout << "===========================================================================" << endl;
-    cout << "Information:" << endl
-        << "Server protocol: FactCGI\n"
-        << "Debug:" << false << endl
-        << "Configuration:" << true << endl;
-    cout << "===========================================================================" << endl;
-    cout << "Starting server..........." << endl;
     //FastMain();
     CreareFCGIConnect(DBName);
     TestDB();
