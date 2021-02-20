@@ -29,4 +29,4 @@ POSTJSON GetScheme(const std::string& ip, const int& PORT);
 std::vector<Position> GetAddPositionFromJSON(std::string strJson);
 
 /*Парсинг в вектор UUID элементов для выдачи из JSON.*/
-vector<string> GetIssuePositionFromJSON(std::string strJson);
+std::vector<string> GetIssuePositionFromJSON(std::string strJson);

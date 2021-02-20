@@ -332,6 +332,11 @@ Cell WareHouse::GetElementToUUID(const string& uuid) { // выдача элемента по поз
 	//}
 }
 
-vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> Vec) {
-	string Body = "";
+vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> InVec) {
+	vector<CompleteFuncElem> Vec;
+	string Body = "DELETE FROM Positions WHERE UUID = '";
+	for (const auto& i : InVec) {
+		db.InsertDBData(Body + i + "\'");
+	}
+	return Vec;
 }

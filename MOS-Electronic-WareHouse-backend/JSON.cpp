@@ -48,7 +48,7 @@ std::vector<Position> GetAddPositionFromJSON(std::string strJson) {
     size_t Count = body.size();
     for (size_t i = 0; i < Count; i++) {
         Position VrPos(body[i]["Name"], body[i]["Weight"], 
-            TypeAndSizePosition(body[i]["Height"], body[i]["Width"], body[i]["Depth"]), body[i]["UUID"]); //comment!!
+            TypeAndSizePosition(body[i]["Height"], body[i]["Width"], body[i]["Depth"]), body[i]["UUID"], body[i]["Comment"]); //comment!!
         VecPos.push_back(VrPos);
     }
     return VecPos;
@@ -57,8 +57,14 @@ std::vector<Position> GetAddPositionFromJSON(std::string strJson) {
 }
 
 /*Парсинг в вектор UUID элементов для выдачи из JSON.*/
-vector<string> GetIssuePositionFromJSON(std::string strJson) {
+std::vector<string> GetIssuePositionFromJSON(std::string strJson) {
     json JSON = json::parse(strJson);
+    json body = JSON["UUID"];
+    std::vector<string> ret;
+    size_t Count = body.size();
+    for (size_t i = 0; i < Count; i++) {
+        ret.push_back(body[i]);
+    }
     //vector<string> Vec = JSON;
-    return JSON;
+    return ret;
 }

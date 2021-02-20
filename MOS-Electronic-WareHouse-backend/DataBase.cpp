@@ -94,7 +94,7 @@ std::string DataBase::SelectData(std::string GetData) {
     if (rc != SQLITE_OK) {
        // fprintf(stderr, "[SQL error]: ", zErrMsg);
         std::cerr << "[SQL error](SelectData): " << zErrMsg << std::endl;
-        return "{\"status\": 404, \"body\": []}";
+        return "{\"status\": 404, \"body\": {";
     }
     return Result;
 }/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/

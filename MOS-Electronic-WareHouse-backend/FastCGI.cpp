@@ -19,7 +19,6 @@ void CreareFCGIConnect(string InWH) {
 static void* doit(void* a)
 {
     WareHouse WH(NameDB);
-    //char* buffer;
     int rc;
     FCGX_Request request;
     char* server_name;
@@ -105,8 +104,10 @@ static void* doit(void* a)
                 FCGX_GetStr(buffer, Max, request.in);
                 std::string buf = buffer;
                 buf = buf.substr(0, Max);
+                cout << buf << endl;
                 delete[] buffer;
                 if (InURL.substr(4, 4) == "/add") {
+                    //if () {}
                     SetConsoleCP(1251);
                     SetConsoleOutputCP(1251);
                     //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
@@ -117,12 +118,13 @@ static void* doit(void* a)
                     FCGX_GetStr(buffer, Max, request.in);
                     std::string buf = buffer;
                     buf = buf.substr(0, Max);*/
-                    std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     WH.AddElements(GetAddPositionFromJSON(buf));
                 }
                 else if (InURL.substr(4, 6) == "/issue") {
-
+                    cout << buf;
+                    WH.IssuePositions(GetIssuePositionFromJSON(buf));
                 }
             }
         }

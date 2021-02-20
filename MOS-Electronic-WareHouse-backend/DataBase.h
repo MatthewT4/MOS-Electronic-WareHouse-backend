@@ -12,19 +12,19 @@ class DataBase
 {
 public:
     DataBase();
-    
+    /*Закрыввет старое и открывает новое соединение с файлом БД с названием из входной строки.*/
     void ConnectToDB(std::string DBName);
-
+    /*Конструктор класса, открывает соединение с файлом БД с названием из входной строки.*/
     DataBase(std::string DBName);
-
+    /*Деструктор класса, закрывает соединение с файлом БД.*/
     ~DataBase();
 
     std::string SelectData(std::string GetData); 
-
+    /*добавить данные из базы данных по заданному запросу.*/
     bool InsertDBData(std::string GetData);
 
     bool CheckingForValuesDB();
-
+    /*Получить данные об ошибке предыдущего запроса.*/
     std::string GeSsqlError();
 
 
