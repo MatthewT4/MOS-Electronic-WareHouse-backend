@@ -19,6 +19,9 @@
     <Filter Include="Исходные файлы\Tests">
       <UniqueIdentifier>{c8e25755-2a6e-4624-b97d-ae1829ef4afc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\FastCGI">
+      <UniqueIdentifier>{99fcac86-972f-4dae-85b4-75204b8fe987}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="DataBase.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="FastCGI.cpp">
+      <Filter>Исходные файлы\FastCGI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="DataBase.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="FastCGI.h">
+      <Filter>Исходные файлы\FastCGI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

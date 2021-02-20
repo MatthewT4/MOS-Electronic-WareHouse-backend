@@ -1,6 +1,4 @@
 #pragma once;
-//#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
-//#include <windows.h>
 #include <string>
 using namespace std;
 
@@ -81,31 +79,40 @@ public:
     TypePosition GetType() {
         return type;
     }
+    int GetHeight() { return height; }
+    int GetWidth() { return width; }
+    int GetDepth() { return depth; }
 private:
-    int height;
-    int width;
-    int depth;
-    TypePosition type;
+    int height = 0;
+    int width = 0;
+    int depth = 0;
+    TypePosition type = TypePosition::RemoteWarehouse;
 };
+
+string operator+(string st, TypePosition tp);
+
 class Position {
 public:
-    Position(){}
-    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType) : name(InName), weigt(InWeight), sizeAndType(InSizeAndType) {
-        //uuid = generateUUID()
-    }
-    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid) : name(InName),
-                                        weigt(InWeight), sizeAndType(InSizeAndType), uuid(InUuid) {
-        //uuid = generateUUID()
-    }
-    Position(string InUUID) : uuid(InUUID) {} //debug, delete continue!!!!!!
-    string GetUUid() {
-        return uuid;
-    }
+    Position();
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType);
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid);
+    Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid, string InComment);
+    Position(string InUUID);//debug, delete continue!!!!!!
+    string GetUUid();
+    TypePosition GetTypePosition();
+    int GetWeigt();
+    int GetDepth();
+    int GetHeight();
+    int GetWidth();
+    std::string GetName();
+    std::string GetComment();
+
 private:
-    string name;
+    std::string name;
     int weigt;
     TypeAndSizePosition sizeAndType;
-    string uuid;
+    std::string uuid;
+    std::string comment = "";
 };
 void Test();
 /* unit test:

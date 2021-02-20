@@ -11,30 +11,29 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 class DataBase
 {
 public:
+    DataBase();
+    /*Закрыввет старое и открывает новое соединение с файлом БД с названием из входной строки.*/
+    void ConnectToDB(std::string DBName);
+    /*Конструктор класса, открывает соединение с файлом БД с названием из входной строки.*/
     DataBase(std::string DBName);
-    /*{
-        rc = sqlite3_open(DBName.c_str(), &db);
-        if (rc) {
-            throw std::domain_error("Can't open database:" + *sqlite3_errmsg(db));
-        }
-    }*/
+    /*Деструктор класса, закрывает соединение с файлом БД.*/
     ~DataBase();
-        /*{
-        sqlite3_free(zErrMsg);
-        sqlite3_close(db);
-    }*/
+
     std::string SelectData(std::string GetData); 
-    /*{
-        const char* sql = GetData.c_str();
-        rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-        return Result;
-    }*/
+    /*добавить данные из базы данных по заданному запросу.*/
+    bool InsertDBData(std::string GetData);
+
+    bool CheckingForValuesDB();
+    /*Получить данные об ошибке предыдущего запроса.*/
+    std::string GeSsqlError();
+
 
 private:
     sqlite3* db;
     char* zErrMsg = 0;
-    int rc;
+    int rc = 0;
     char* sql;
+    std::string sqlError;
 };
 void TestDB();
 /*

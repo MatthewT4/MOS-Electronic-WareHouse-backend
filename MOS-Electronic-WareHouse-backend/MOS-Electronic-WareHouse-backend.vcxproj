@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataBase.cpp" />
+    <ClCompile Include="FastCGI.cpp" />
     <ClCompile Include="HTTP.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="MOS-Electronic-WareHouse-backend.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataBase.h" />
+    <ClInclude Include="FastCGI.h" />
     <ClInclude Include="HTTP.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="Position.h" />

@@ -21,8 +21,10 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	}
 	//дальше работаем с опциями
 	std::string finish = "";
-	curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
-	curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+	//curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
+	curl_easy_setopt(curl, CURLOPT_URL, ip);
+	//curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+	curl_easy_setopt(curl, CURLOPT_PORT, PORT);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
 	/*//указываем использовать прокси сервер
@@ -37,3 +39,4 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	curl_easy_cleanup(curl);
 	return finish;
 }
+std::string SendDataToServer(bool b);

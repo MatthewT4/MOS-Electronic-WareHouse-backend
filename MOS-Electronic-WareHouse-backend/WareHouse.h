@@ -5,26 +5,36 @@
 #include <set>
 #include <algorithm>
 #include "JSON.h"
+#include "DataBase.h"
 
 struct Cell {
 	Cell() {}
 	Cell(bool Er) : Error(Er){}
-	Cell(TypePosition Intype, Position Inposit, vector<std::string> InVecCell) : type(Intype),
-								posit(Inposit), includeCell(InVecCell), empty(false) {}
-	bool empty = true;
-	TypePosition type;
-	Position posit = Position("000");
-	vector<std::string> includeCell;
+	Cell(TypePosition Intype, Position Inposit) : type(Intype), posit(Inposit) {}
+	TypePosition type = TypePosition::RemoteWarehouse;
+	Position posit = Position("000"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	bool Error = false;
+	int height = 0;
+	string NameCell = "";
 };
 
 bool operator<(Cell c1, Cell c2);
 
+struct CompleteFuncElem {
+	CompleteFuncElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell);
+	std::string uuid;
+	bool complete;
+	std::string NamePosition;
+	std::string NameCell;
+};
+
 class WareHouse {
 public:
 	WareHouse(); /*{}*/
-	WareHouse(POSTJSON data);
-	void AddElement(Cell ce);
+	WareHouse(std::string InDBName);
+	WareHouse(POSTJSON data, string DBName);
+	vector<CompleteFuncElem> AddElements(std::vector<Position> ce);
+	vector<CompleteFuncElem> IssuePositions(vector<string> Vec);
 	/*{
 		setWareHouse.insert(ce);
 	}*/
@@ -40,9 +50,15 @@ public:
 			return Cell(true); // если элемент не найден, то возвращаем пустой Cell с флажком Error.
 		}
 	}*/
+	DataBase& GetDB();
+	bool CreateDBTable(POSTJSON data);
+
+
 private:
+	bool InsertDB(Position& pos, std::string type);
 	int heightWH = 0,
 		widthWH = 0,
 		depthWH = 0;
 	std::vector<std::vector<std::string>> vecCellNotSmall;
+	DataBase db;
 };
