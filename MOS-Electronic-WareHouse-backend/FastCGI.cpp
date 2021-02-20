@@ -80,21 +80,10 @@ static void* doit(void* a)
                     cout << zapr;
                 }
             }
-            if (InURL == "/data" /*or OldMethod == "/data"*/) {
-                //DataBase db("WareHouse.db");
-                //std::string dataa = db.SelectData("SELECT * FROM WareHouse"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
-                //std::string dataa = db.SelectData("Select Po2.UUID, Po2.Name, Po2.Height, Po2.Width, Po2.Depth, Po2.Weight, Po2.Comments, WH1.PositionCell FROM WareHouse WH1 INNER JOIN Positions Po2 ON WH1.PositionCell = Po2.Position WHERE NOT Po2.Name = 'RemoteWarehouse'"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
+            if (InURL == "/data") {
                 std::string dataa = WH.GetDB().SelectData("Select Po2.UUID, Po2.Name, Po2.Height, Po2.Width, Po2.Depth, Po2.Weight, Po2.Comments, WH1.PositionCell FROM WareHouse WH1 INNER JOIN Positions Po2 ON WH1.PositionCell = Po2.Position WHERE NOT Po2.Name = 'RemoteWarehouse'"); // Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell");
                 FCGX_PutS(dataa.c_str(), request.out);
-            }/*
-            else if (InURL.substr(0, 7) == "/api/add") {
-                //POST data and Parsing 
-                string zapr = "";
-                for (auto iter = InURL.begin() + 7; iter != InURL.end(); iter++) {
-                    zapr += *iter;
-                }
-                cout << zapr;
-            }*/
+            }
         }
         else if (method == "POST") { 
             if (InURL.substr(0, 4) == "/api") {
@@ -107,19 +96,9 @@ static void* doit(void* a)
                 cout << buf << endl;
                 delete[] buffer;
                 if (InURL.substr(4, 4) == "/add") {
-                    //if () {}
                     SetConsoleCP(1251);
                     SetConsoleOutputCP(1251);
-                    //int FCGX_GetStr(char* str, int n, FCGX_Stream * stream);
-                    //FCGX_GetStr(buffer, FCGX_GetParam("CONTENT_LENGTH", request.envp), request.in);
-                    /*int Max = atoi(FCGX_GetParam("CONTENT_LENGTH", request.envp));
-                    Sleep(300);
-                    char* buffer = new char[Max];
-                    FCGX_GetStr(buffer, Max, request.in);
-                    std::string buf = buffer;
-                    buf = buf.substr(0, Max);*/
-                    //std::cerr << "buffer: " << buffer << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    std::cerr << "stdbuffer: " << buf << std::endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //std::cerr << "stdbuffer: " << buf << std::endl;
                     WH.AddElements(GetAddPositionFromJSON(buf));
                 }
                 else if (InURL.substr(4, 6) == "/issue") {
@@ -128,14 +107,6 @@ static void* doit(void* a)
                 }
             }
         }
-        //вывести все HTTP-заголовки (каждый заголовок с новой строки) 
-        //между заголовками и телом ответа нужно вывести пустую строку 
-       /* FCGX_PutS("<h1>FastCGI Hello! 222 (multi-threaded C, fcgiapp library)</h1>\r\n", request.out);
-        FCGX_PutS("<p>Request accepted from host <i>", request.out);
-        FCGX_PutS(server_name ? server_name : "?", request.out);
-        FCGX_PutS("</i></p>\r\n", request.out);
-        FCGX_PutS("</body>\r\n", request.out);
-        FCGX_PutS("</html>\r\n", request.out);*/
 
         //"заснуть" - имитация многопоточной среды 
         Sleep(2);
@@ -145,9 +116,7 @@ static void* doit(void* a)
 
         // OldMethod = method;
          //завершающие действия - запись статистики, логгирование ошибок и т.п. 
-        //delete buffer;
     }
-    //delete buffer;
     return NULL;
 }
 void FastMain(void)

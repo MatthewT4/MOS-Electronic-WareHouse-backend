@@ -33,28 +33,18 @@ public:
 	WareHouse(); /*{}*/
 	WareHouse(std::string InDBName);
 	WareHouse(POSTJSON data, string DBName);
+	/*Добавление элементов в базу данных из вектора позиций.*/
 	vector<CompleteFuncElem> AddElements(std::vector<Position> ce);
+	/*Выдача элементов из базы данных из вектора позиций.*/
 	vector<CompleteFuncElem> IssuePositions(vector<string> Vec);
-	/*{
-		setWareHouse.insert(ce);
-	}*/
-	Cell GetElementToUUID(const string& uuid); 
-	/*{ // выдача элемента по позиции.
-		auto it = find_if(setWareHouse.begin(), setWareHouse.end(), [uuid] (Cell c) {
-			return c.posit.GetUUid() == uuid;
-			});
-		if (it != setWareHouse.end()) {
-			return *it;
-		}
-		else {
-			return Cell(true); // если элемент не найден, то возвращаем пустой Cell с флажком Error.
-		}
-	}*/
+	/*Получение переменной DataBace по ссылке.*/
 	DataBase& GetDB();
+	/*Добавление новых ячеек склада.*/
 	bool CreateDBTable(POSTJSON data);
 
 
 private:
+	/*подготовка запроса для добавления в БД*/
 	bool InsertDB(Position& pos, std::string type);
 	int heightWH = 0,
 		widthWH = 0,

@@ -14,6 +14,7 @@ enum class TypePosition {
 class TypeAndSizePosition {
 public:
     TypeAndSizePosition() {}
+    /*Добавление позиции по входным данным. Нахождение типа позиции*/
     TypeAndSizePosition(const int& x, const int& y, const int& z) {
         // Small
         if (x <= 1000 and y <= 1000 and z <= 1000) {

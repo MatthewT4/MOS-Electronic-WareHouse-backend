@@ -5,5 +5,5 @@
 #include <algorithm>
 
 
-
+/*Получение JSON схемы с сервера.*/
 std::string GetJsonByHTTP(std::string ip, int PORT);

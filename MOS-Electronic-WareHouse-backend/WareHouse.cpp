@@ -329,17 +329,6 @@ bool WareHouse::CreateDBTable(POSTJSON data) { // пойдёт под insert позиций.
 	return AddSuccesful;
 
 }
-Cell WareHouse::GetElementToUUID(const string& uuid) { // выдача элемента по позиции.
-	/*auto it = find_if(setWareHouse.begin(), setWareHouse.end(), [uuid](Cell c) {
-		return c.posit.GetUUid() == uuid;
-		});
-	if (it != setWareHouse.end()) {
-		return *it;
-	}
-	else {*/
-		return Cell(true); // если элемент не найден, то возвращаем пустой Cell с флажком Error.
-	//}
-}
 
 vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> InVec) {
 	vector<CompleteFuncElem> Vec;
