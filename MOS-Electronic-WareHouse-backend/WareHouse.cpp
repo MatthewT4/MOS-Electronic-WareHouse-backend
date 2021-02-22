@@ -56,11 +56,12 @@ WareHouse::WareHouse() {
 	*/
 }
 WareHouse::WareHouse(std::string InDBName) {
-	/*db.ConnectToDB(InDBName);
-	POSTJSON schemeii = GetScheme("http://127.0.0.1/scheme", 5000);
+	db.ConnectToDB(InDBName);
+	/*POSTJSON schemeii = GetScheme("http://127.0.0.1/scheme", 5000);
 	widthWH = schemeii.size_x;
 	heightWH = schemeii.size_y;
 	depthWH = schemeii.size_z;*/
+
 }
 /*{"size": {"size_x": 6, "size_y" : 3, "size_z" : 1},
 "merged" : [["A1", "A2"], ["B2", "B3"], ["C1", "C2"], ["D2", "D3"], ["E2", "E3", "F2", "F3"]] }*/
