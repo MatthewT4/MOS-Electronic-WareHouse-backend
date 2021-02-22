@@ -12,6 +12,9 @@
 static int socketId;
 static std::string OldMethod = "";
 
+/*Сохранения названия БД и запуск FastMain*/
 void CreareFCGIConnect(string InWH);
+/*Приём и обработка запросов FastCGI*/
 static void* doit(void* a);
+/*Создание потоков обрабобки*/
 void FastMain(void);

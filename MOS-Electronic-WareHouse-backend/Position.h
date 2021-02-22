@@ -3,7 +3,7 @@
 using namespace std;
 
 
-
+/*enum типо-размеров*/
 enum class TypePosition {
     Small, //1000*1000*1000
     Medium, //1000*2000*1000
@@ -89,23 +89,35 @@ private:
     int depth = 0;
     TypePosition type = TypePosition::RemoteWarehouse;
 };
-
+/*оператор сложения строки и типа-размера*/
 string operator+(string st, TypePosition tp);
 
 class Position {
 public:
+    /*Конструктор по умолчанию, только создаёт переменную.*/
     Position();
+    /*Создание переменной по имени, весу и размерам, определяется типо-размер*/
     Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType);
+    /*Создание переменной по имени, весу, UUID и размерам, определяется типо-размер*/
     Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid);
+    /*Создание переменной по имени, весу, комментарию, UUID и размерам, определяется типо-размер*/
     Position(string InName, int InWeight, TypeAndSizePosition InSizeAndType, string InUuid, string InComment);
-    Position(string InUUID);//debug, delete continue!!!!!!
+    Position(string InUUID); //debug.
+    /*Получить UUID позиции*/
     string GetUUid();
+    /*Получить размеры позиции*/
     TypePosition GetTypePosition();
+    /*Получить вес позиции.*/
     int GetWeigt();
+    /*Получить длины позиции.*/
     int GetDepth();
+    /*Получить высоты позиции.*/
     int GetHeight();
+    /*Получить ширины позиции.*/
     int GetWidth();
+    /*Получить имени позиции.*/
     std::string GetName();
+    /*Получить комментария к позиции.*/
     std::string GetComment();
 
 private:
@@ -115,12 +127,3 @@ private:
     std::string uuid;
     std::string comment = "";
 };
-void Test();
-/* unit test:
-        300*300*300 -> Small
-        200*500*2100 -> RemoteWarehouse
-        1000*1200*2000 -> Big
-        
-
-        
-*/

@@ -7,3 +7,5 @@
 
 /*Получение JSON схемы с сервера.*/
 std::string GetJsonByHTTP(std::string ip, int PORT);
+/*Отправка данных на сервер склада*/
+bool GetJsonByHTTP(std::string ip, int PORT, std::string data);

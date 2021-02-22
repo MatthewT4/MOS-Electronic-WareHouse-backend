@@ -40,3 +40,7 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	return finish;
 }
 std::string SendDataToServer(bool b);
+
+bool GetJsonByHTTP(std::string ip, int PORT, std::string data) {
+
+}

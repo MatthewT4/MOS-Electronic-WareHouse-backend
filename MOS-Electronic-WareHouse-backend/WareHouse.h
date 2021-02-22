@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "JSON.h"
 #include "DataBase.h"
-
+/*Стркутура ячейки*/
 struct Cell {
 	Cell() {}
 	Cell(bool Er) : Error(Er){}
@@ -19,7 +19,7 @@ struct Cell {
 };
 
 bool operator<(Cell c1, Cell c2);
-
+/*структура возвращаемого значия для некоторых функций.*/
 struct CompleteFuncElem {
 	CompleteFuncElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell);
 	std::string uuid;
