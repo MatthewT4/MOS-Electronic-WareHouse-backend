@@ -39,12 +39,11 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	curl_easy_cleanup(curl);
 	return finish;
 }
-std::string SendDataToServer(bool b);
 
-bool GetJsonByHTTP(std::string ip, int PORT, std::string data) {
+bool SendDataToServer(std::string ip, int PORT, std::string data) {
 	CURL* curl;
 	CURLcode res;
-
+	std::string finish = "";
 	/* In windows, this will init the winsock stuff */
 	curl_global_init(CURL_GLOBAL_ALL);
 
@@ -54,14 +53,18 @@ bool GetJsonByHTTP(std::string ip, int PORT, std::string data) {
 		/* First set the URL that is about to receive our POST. This URL can
 		   just as well be a https:// URL if that is what should receive the
 		   data. */
+		std::string type = "Content-Type:application/json";
 		curl_easy_setopt(curl, CURLOPT_URL, ip);
 		/* Now specify the POST data */
 		curl_easy_setopt(curl, CURLOPT_PORT, PORT);
+		//curl_easy_setopt(curl, CURLOPT_HTTPHEADER, type);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
-
+		struct curl_slist* header = NULL;
+		header = curl_slist_append(header, "Content-Type:application/json");
 		/* Perform the request, res will get the return code */
+		res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header);
 		res = curl_easy_perform(curl);
+		std::cout << "Ok!" << std::endl;
 		/* Check for errors */
 		if (res != CURLE_OK) {
 			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
@@ -70,6 +73,7 @@ bool GetJsonByHTTP(std::string ip, int PORT, std::string data) {
 		/* always cleanup */
 		curl_easy_cleanup(curl);
 	}
+	//std::cout << finish;
 	curl_global_cleanup();
 	return true;
 }
