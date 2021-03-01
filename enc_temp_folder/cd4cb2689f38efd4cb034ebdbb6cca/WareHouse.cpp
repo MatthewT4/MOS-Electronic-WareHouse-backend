@@ -232,8 +232,6 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 	}
 	//[{\"uuid\":\"67568fb7f2c1d06d40450a478863bab1\",\"destination\":[\"A7\"]},{\"uuid\":\"bd751ff4c9739a943f40dc2ff5285cdc\",\"destination\":[\"B7\"]}]")
 	//std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + pos.GetUUid() + "'");
-	
-	//Проверка на удалённый склад, корректность парсинга json/
 	bool b = SendDataToServer("127.0.0.1", 5000, "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
 	GetNamePositionFromJson(db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + pos.GetUUid() + "'")) + "\"]}]");
 	if (!b) {

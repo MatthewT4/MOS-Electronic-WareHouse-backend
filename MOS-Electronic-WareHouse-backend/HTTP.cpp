@@ -39,7 +39,8 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	curl_easy_cleanup(curl);
 	return finish;
 }
-
+/*POST method
+	header: JSON*/
 bool SendDataToServer(std::string ip, int PORT, std::string data) {
 	CURL* curl;
 	CURLcode res;
@@ -59,6 +60,8 @@ bool SendDataToServer(std::string ip, int PORT, std::string data) {
 		curl_easy_setopt(curl, CURLOPT_PORT, PORT);
 		//curl_easy_setopt(curl, CURLOPT_HTTPHEADER, type);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
 		struct curl_slist* header = NULL;
 		header = curl_slist_append(header, "Content-Type:application/json");
 		/* Perform the request, res will get the return code */
@@ -73,6 +76,7 @@ bool SendDataToServer(std::string ip, int PORT, std::string data) {
 		/* always cleanup */
 		curl_easy_cleanup(curl);
 	}
+	std::cout << "Finish: " << finish << std::endl;
 	//std::cout << finish;
 	curl_global_cleanup();
 	return true;

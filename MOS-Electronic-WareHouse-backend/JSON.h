@@ -30,3 +30,4 @@ std::vector<Position> GetAddPositionFromJSON(std::string strJson);
 
 /*Парсинг в вектор UUID элементов для выдачи из JSON.*/
 std::vector<string> GetIssuePositionFromJSON(std::string strJson);
+std::string GetNamePositionFromJson(std::string js);

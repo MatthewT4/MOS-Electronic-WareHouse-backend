@@ -19,7 +19,7 @@ public:
     /*Деструктор класса, закрывает соединение с файлом БД.*/
     ~DataBase();
     /*Получение данных по заданному запросу.*/
-    std::string SelectData(std::string GetData); 
+    std::string SelectData(std::string GetData);
     /*добавить данные из базы данных по заданному запросу.*/
     bool InsertDBData(std::string GetData);
 
