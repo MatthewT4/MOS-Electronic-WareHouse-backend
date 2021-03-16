@@ -149,4 +149,4 @@ void FastMain(void)
         pthread_join(id[i], NULL);
     }
 
-}
+} 

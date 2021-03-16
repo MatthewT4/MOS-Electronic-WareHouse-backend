@@ -119,6 +119,9 @@ public:
     std::string GetName();
     /*Получить комментария к позиции.*/
     std::string GetComment();
+    /*Установить комментарий позиции.*/
+    void SetComment(std::string comm);
+    
 
 private:
     std::string name;

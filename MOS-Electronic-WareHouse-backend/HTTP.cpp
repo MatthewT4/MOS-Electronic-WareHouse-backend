@@ -21,10 +21,10 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	}
 	//дальше работаем с опциями
 	std::string finish = "";
-	//curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
-	curl_easy_setopt(curl, CURLOPT_URL, ip);
-	//curl_easy_setopt(curl, CURLOPT_PORT, 5000);
-	curl_easy_setopt(curl, CURLOPT_PORT, PORT);
+	curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
+	//curl_easy_setopt(curl, CURLOPT_URL, ip);
+	curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+	//curl_easy_setopt(curl, CURLOPT_PORT, PORT);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
 	/*//указываем использовать прокси сервер
@@ -35,6 +35,10 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	*/
 	//вызываем функцию curl_easy_perform которая обработает все наши заданные опции и вернет результат, если res будет равен 0 то начит всё прошло успешно, иначе возникла какая то ошибка.
 	res = curl_easy_perform(curl);
+	if (res != CURLE_OK) {
+		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+		return "Error func";
+	}
 	//завершаем нашу сессию
 	curl_easy_cleanup(curl);
 	return finish;
@@ -55,11 +59,17 @@ bool SendDataToServer(std::string ip, int PORT, std::string data) {
 		   just as well be a https:// URL if that is what should receive the
 		   data. */
 		std::string type = "Content-Type:application/json";
-		curl_easy_setopt(curl, CURLOPT_URL, ip);
+		//curl_easy_setopt(curl, CURLOPT_URL, ip);
 		/* Now specify the POST data */
-		curl_easy_setopt(curl, CURLOPT_PORT, PORT);
+		//curl_easy_setopt(curl, CURLOPT_PORT, PORT);
+		curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1");
+		curl_easy_setopt(curl, CURLOPT_PORT, 5000);
 		//curl_easy_setopt(curl, CURLOPT_HTTPHEADER, type);
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+		//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+		std::string ddatta = "[{\"uuid\":\"67768fb7f2c1d06d40450a478863bab1\",\"destination\":[\"A7\"]},{\"uuid\":\"bd751fa4c9739a943f40dc2ff5285cdc\",\"destination\":[\"B7\"]}]";
+		std::cout << "ddatta: " << ddatta << std::endl << std::endl;
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, ddatta);
+		//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
 		struct curl_slist* header = NULL;
@@ -73,10 +83,11 @@ bool SendDataToServer(std::string ip, int PORT, std::string data) {
 			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 			return false;
 		}
+		std::cout << "finish: " << finish << std::endl << std::endl;
 		/* always cleanup */
 		curl_easy_cleanup(curl);
 	}
-	std::cout << "Finish: " << finish << std::endl;
+	//std::cout << "Finish: " << finish << std::endl;
 	//std::cout << finish;
 	curl_global_cleanup();
 	return true;

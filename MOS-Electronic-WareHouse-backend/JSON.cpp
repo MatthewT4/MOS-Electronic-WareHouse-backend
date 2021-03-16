@@ -70,7 +70,7 @@ std::vector<string> GetIssuePositionFromJSON(std::string strJson) {
 }
 
 std::string GetNamePositionFromJson(std::string js) {
-    json JSON = js;
-    json body = js[body];
-    return body[0];
+    json JSON = json::parse(js);
+    json Body = JSON["body"];
+    return Body[0]["Position"];
 }

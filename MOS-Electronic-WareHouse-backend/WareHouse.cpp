@@ -180,14 +180,17 @@ vector<CompleteFuncElem> WareHouse::AddElements(std::vector<Position> InVecCell)
 	return RetVecComplete;
 }
 bool WareHouse::InsertDB(Position& pos, std::string type) {
+	/*if (pos.GetComment() == "") {
+		pos.SetComment(NULL);
+	}*/
 	std::string dbstr, Val;
 	if (type != "RemoteWarehouse") {
 		if (pos.GetComment() == "") {
 			dbstr = "INSERT INTO Positions( Position, UUID, Name, Height, Width, Depth, Weight) VALUES (";
 			Val = "( SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE NOT (t1.PositionCell IN ( \
-			SELECT t1.PositionCell FROM WareHouse t1, WareHouse t2 WHERE(t1.PositionCell = t2.Position))) \
+			SELECT t1.PositionCell FROM WareHouse t1, Positions t2 WHERE(t1.PositionCell = t2.Position))) \
 			AND t1.TypeCell = \'" + type + "\' ORDER BY t1.HeightCell LIMIT 1), ";
-			Val += pos.GetUUid() + "\'" + ", "
+			Val += "\'" + pos.GetUUid() + "\'" + ", "
 				+ "\'" + pos.GetName() + "\'" + ", " + to_string(pos.GetHeight()) + ", "
 				+ to_string(pos.GetWidth()) + ", " + to_string(pos.GetDepth()) + ", "
 				+ to_string(pos.GetWeigt()) + ')';
@@ -231,16 +234,24 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 		return false;
 	}
 	//[{\"uuid\":\"67568fb7f2c1d06d40450a478863bab1\",\"destination\":[\"A7\"]},{\"uuid\":\"bd751ff4c9739a943f40dc2ff5285cdc\",\"destination\":[\"B7\"]}]")
-	//std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + pos.GetUUid() + "'");
-	
-	//Проверка на удалённый склад, корректность парсинга json/
-	bool b = SendDataToServer("127.0.0.1", 5000, "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
+	std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + pos.GetUUid() + "'");
+	if (GetNamePositionFromJson(PosCell) != "RemoteWarehouse") {
+		cout << PosCell << endl << endl;
+		std::string data = "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
+			GetNamePositionFromJson(PosCell) + "\"]}]";
+		cout << "data: " << data << endl << endl;
+		bool b = SendDataToServer("http://127.0.0.1", 5000, "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
+			GetNamePositionFromJson(PosCell) + "\"]}]");
+		cout << "Resutl: " << b << endl << endl;
+	}
+	//Проверка на удалённый склад, корректность парсинга jsonЭ
+	/*bool b = SendDataToServer("127.0.0.1", 5000, "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
 	GetNamePositionFromJson(db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + pos.GetUUid() + "'")) + "\"]}]");
 	if (!b) {
 		cout << "[WareHouse](Insertdb) SQL error" << endl;
 		//удалить из бд и попробовать снова. 
 		return false;
-	}
+	}*/
 	//std::cout << "Otvet: " << PosCell << endl << "UUID= " << pos.GetUUid() << endl;
 	return true;
 }

@@ -52,3 +52,4 @@ int Position::GetHeight() { return sizeAndType.GetHeight(); }
 int Position::GetWidth() { return sizeAndType.GetWidth(); }
 std::string Position::GetName() { return name; }
 std::string Position::GetComment() { return comment; }
+void Position::SetComment(std::string comm) { comment = comm; }
