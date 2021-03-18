@@ -1,18 +1,32 @@
 #include "HTTP.h"
 #include <iostream>
+#include <nlohmann/json.hpp>
 
+static std::string IpServer = "http://127.0.0.1";
+static int portServer = 5000;
 size_t writefunc(void* ptr, size_t size, size_t nmemb, std::string* data) {
 	data->append((char*)ptr, size * nmemb);
 	return size * nmemb;
 }
+/*Измененить ip и порт сервера склада
+Чтобы изменить только ip - передаём в порт аргумент -1.
+Чтобы изменить только порт - передаём ip с аргументом "none".
+*/
+void SetIpAndPort(std::string inIp, int inPort) {
+	if (inIp != "none") {
+		IpServer = inIp;
+	}
+	if (inPort != -1) {
+		portServer = inPort;
+	}
+}
 
-std::string GetJsonByHTTP(std::string ip, int PORT)
-{
+std::string GetJsonByHTTP() {
 	CURL* curl;//Объект CURL
 
 	//объект в который будет записан результат вызова функции curl_easy_perform
 	CURLcode res;
-
+	std::cout << IpServer << " " << portServer << std::endl;
 	//выполняем инициализацю
 	curl = curl_easy_init();
 	if (!curl) { //проверяем все ли ОК
@@ -21,10 +35,12 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 	}
 	//дальше работаем с опциями
 	std::string finish = "";
-	curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
-	//curl_easy_setopt(curl, CURLOPT_URL, ip);
-	curl_easy_setopt(curl, CURLOPT_PORT, 5000);
-	//curl_easy_setopt(curl, CURLOPT_PORT, PORT);
+	//curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
+	//curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+	std::string vr = IpServer + "/scheme";
+	const char* ip = vr.c_str();
+	curl_easy_setopt(curl, CURLOPT_URL, ip);
+	curl_easy_setopt(curl, CURLOPT_PORT, portServer);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
 	/*//указываем использовать прокси сервер
@@ -45,7 +61,7 @@ std::string GetJsonByHTTP(std::string ip, int PORT)
 }
 /*POST method
 	header: JSON*/
-bool SendDataToServer(std::string ip, int PORT, std::string data) {
+bool SendDataToServer(std::string data) {
 	CURL* curl;
 	CURLcode res;
 	std::string finish = "";
@@ -62,13 +78,16 @@ bool SendDataToServer(std::string ip, int PORT, std::string data) {
 		//curl_easy_setopt(curl, CURLOPT_URL, ip);
 		/* Now specify the POST data */
 		//curl_easy_setopt(curl, CURLOPT_PORT, PORT);
-		curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1");
-		curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+		/*curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1");
+		curl_easy_setopt(curl, CURLOPT_PORT, 5000);*/
+		const char* ip = IpServer.c_str();
+		curl_easy_setopt(curl, CURLOPT_URL, ip);
+		curl_easy_setopt(curl, CURLOPT_PORT, portServer);
 		//curl_easy_setopt(curl, CURLOPT_HTTPHEADER, type);
 		//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
-		std::string ddatta = "[{\"uuid\":\"67768fb7f2c1d06d40450a478863bab1\",\"destination\":[\"A7\"]},{\"uuid\":\"bd751fa4c9739a943f40dc2ff5285cdc\",\"destination\":[\"B7\"]}]";
+		std::string ddatta = "[{\"uuid\":\"67768fb7f2c1d06d40450a478863bab1\",\"destination\":[\"C1\", \"C2\", \"D1\", \"D2\"]}]";
 		std::cout << "ddatta: " << ddatta << std::endl << std::endl;
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, ddatta);
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
 		//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
@@ -83,12 +102,23 @@ bool SendDataToServer(std::string ip, int PORT, std::string data) {
 			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 			return false;
 		}
-		std::cout << "finish: " << finish << std::endl << std::endl;
-		/* always cleanup */
 		curl_easy_cleanup(curl);
+		curl_global_cleanup();
+		std::cout << "finish: " << finish << std::endl << std::endl;
+		try {
+			nlohmann::json jres = nlohmann::json::parse(finish);
+			if (jres["status"] != "ok") {
+				return false;
+			}
+		}
+		catch (std::exception& ex) {
+			std::cerr << "[HTTP/SendDataToServer](json parsing exception)" << std::endl;
+			return false;
+		}
+		return true;
 	}
 	//std::cout << "Finish: " << finish << std::endl;
 	//std::cout << finish;
 	curl_global_cleanup();
-	return true;
+	return false;
 }

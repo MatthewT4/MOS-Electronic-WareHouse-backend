@@ -5,6 +5,7 @@
 /*bool operator<(Cell c1, Cell c2) {
 	return c1.empty < c2.empty;
 }*/
+
 CompleteFuncElem::CompleteFuncElem(std::string InUuid, bool Incomplete, std::string InNamePosition, std::string InNameCell)
 	: uuid(InUuid), complete(Incomplete), NamePosition(InNamePosition), NameCell(InNameCell) {};
 
@@ -179,6 +180,15 @@ vector<CompleteFuncElem> WareHouse::AddElements(std::vector<Position> InVecCell)
 	}
 	return RetVecComplete;
 }
+std::string GetStrToJSON(std::string instr) {
+	std::string outStr = "[";
+	while (instr.size() != 0) {
+		outStr += "\"" + instr[0] + instr[1];
+		outStr += "\"";
+
+	}
+	return outStr;
+}
 bool WareHouse::InsertDB(Position& pos, std::string type) {
 	/*if (pos.GetComment() == "") {
 		pos.SetComment(NULL);
@@ -240,7 +250,7 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 		std::string data = "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
 			GetNamePositionFromJson(PosCell) + "\"]}]";
 		cout << "data: " << data << endl << endl;
-		bool b = SendDataToServer("http://127.0.0.1", 5000, "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
+		bool b = SendDataToServer("[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
 			GetNamePositionFromJson(PosCell) + "\"]}]");
 		cout << "Resutl: " << b << endl << endl;
 	}
@@ -329,7 +339,9 @@ vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> InVec) {
 	vector<CompleteFuncElem> Vec;
 	string Body = "DELETE FROM Positions WHERE UUID = '";
 	for (const auto& i : InVec) {
+		std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + i + "'");
 		db.InsertDBData(Body + i + "\'");
+
 	}
 	return Vec;
 }

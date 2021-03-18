@@ -31,7 +31,8 @@ int main()
 {
     //SendDataToServer("https://dt.miet.ru/ppo_it/api/", 443, "[{\"uuid\":\"67568fb7f2c1d06d40450a478863bab1\",\"destination\":[\"A7\"]},{\"uuid\":\"bd751ff4c9739a943f40dc2ff5285cdc\",\"destination\":[\"B7\"]}]");
     //SendDataToServer("http://127.0.0.1", 5000, "[{\"uuid\":\"67568fb7f2c1d06d40450a478863bab1\",\"destination\":[\"A7\"]},{\"uuid\":\"bd751ff4c9739a943f40dc2ff5285cdc\",\"destination\":[\"B7\"]}]");
-    cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;
+    SetIpAndPort("http://127.0.0.1", -1);
+    cout << GetJsonByHTTP() << endl << endl;
     cout << "===========================================================================" << endl;
     cout << "Information:" << endl
         << "Server protocol: FactCGI\n"
@@ -61,7 +62,8 @@ int main()
         }
         if (CreateNewTable) {
             cout << "We get the data and create a new warehouse configuration..." << endl;
-            if (WH.CreateDBTable(GetScheme("http://127.0.0.1/scheme", 5000))) {
+            WH.GetDB().ClearDataBaseConf();
+            if (WH.CreateDBTable(GetScheme())) {
                 cout << "The new warehouse configuration has been successfully created!" << endl;
             }
             else {
@@ -78,8 +80,8 @@ int main()
     //FastMain();
     CreareFCGIConnect(DBName);
     TestDB();
-    cout << GetJsonByHTTP("http://127.0.0.1/scheme", 5000) << endl << endl;
-    GetScheme("http://127.0.0.1/scheme", 5000);
+    cout << GetJsonByHTTP() << endl << endl;
+    GetScheme();
     TestAll();
     return 0;
 }

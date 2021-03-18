@@ -135,3 +135,9 @@ void TestDB() {
     DataBase db("test.db");
     std::cout << db.SelectData("SELECT * FROM WareHouse Where TypeCell = 'Midlle' AND Empty = 0 ORDER BY HeightCell") << std::endl << std::endl;
 }
+void DataBase::ClearDataBaseConf() {
+    rc = sqlite3_exec(db, "DELETE FROM Positions", SelectCallback, 0, &zErrMsg);
+    rc = sqlite3_exec(db, "DELETE FROM WareHouse", SelectCallback, 0, &zErrMsg);
+    bool c = InsertDBData("INSERT INTO WareHouse(PositionCell, TypeCell, HeightCell) VALUES ('RemoteWarehouse', 'RemoteWarehouse', 0)");
+    c = InsertDBData("INSERT INTO Positions(Position, UUID, Height) VALUES ('RemoteWarehouse', 'SERVICE', 0)");
+}

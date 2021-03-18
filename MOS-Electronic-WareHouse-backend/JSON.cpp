@@ -9,11 +9,11 @@
 
 using json = nlohmann::json;
 /*Парсинг схемы склада из JSON, полученного от удалённого сервера*/
-POSTJSON GetScheme(const std::string& ip, const int& PORT) {
+POSTJSON GetScheme() {
     POSTJSON post;
     try {
         //std::string responseString = GetJsonByHTTP("http://127.0.0.1/scheme", 5000);
-        json responseJson = json::parse(GetJsonByHTTP(ip, PORT));
+        json responseJson = json::parse(GetJsonByHTTP());
         json object1 = responseJson["size"];
         json object2 = responseJson["merged"];
         post.size_x = object1["size_x"];

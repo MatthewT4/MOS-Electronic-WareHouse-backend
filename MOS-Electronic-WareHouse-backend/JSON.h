@@ -18,7 +18,7 @@ struct POSTJSON {
 };
 
 /*Парсинг схемы склада из JSON, полученного от удалённого сервера*/
-POSTJSON GetScheme(const std::string& ip, const int& PORT);
+POSTJSON GetScheme();
 
 /*curl --header "Content-Type: application/json" --request POST 
 --data "{"body": {["Name": "dddd","UUID": "1ddevefffwewdef","Height": 30,"Width": 150,

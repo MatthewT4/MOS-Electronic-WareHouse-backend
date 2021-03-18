@@ -26,7 +26,7 @@ public:
     bool CheckingForValuesDB();
     /*Получить данные об ошибке предыдущего запроса.*/
     std::string GeSsqlError();
-
+    void ClearDataBaseConf();
 
 private:
     sqlite3* db;
