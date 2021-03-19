@@ -102,7 +102,7 @@ static void* doit(void* a)
                     WH.AddElements(GetAddPositionFromJSON(buf));
                 }
                 else if (InURL.substr(4, 6) == "/issue") {
-                    cout << buf;
+                    //cout << buf << endl;
                     WH.IssuePositions(GetIssuePositionFromJSON(buf));
                 }
             }

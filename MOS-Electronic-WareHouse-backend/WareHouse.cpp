@@ -352,7 +352,7 @@ vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> InVec) {
 	string Body = "DELETE FROM Positions WHERE UUID = '";
 	for (const auto& i : InVec) {
 		std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + i + "'");
-		cout << "del: " << ("{\"destination\": " + GetStrToJSON(GetNamePositionFromJson(PosCell))) + "}" << endl<< endl;
+		cout << "data delete: " << ("{\"destination\": " + GetStrToJSON(GetNamePositionFromJson(PosCell))) + "}" << endl<< endl;
 		DeletePositionHTTP("{\"destination\": " + GetStrToJSON(GetNamePositionFromJson(PosCell)) + "}");
 		db.InsertDBData(Body + i + "\'");
 
