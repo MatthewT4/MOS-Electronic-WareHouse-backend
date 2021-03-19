@@ -13,3 +13,4 @@ void SetIpAndPort(std::string inIp, int inPort);
 std::string GetJsonByHTTP();
 /*Отправка данных на сервер склада*/
 bool SendDataToServer(std::string data);
+bool DeletePositionHTTP(std::string inData);

@@ -182,11 +182,23 @@ vector<CompleteFuncElem> WareHouse::AddElements(std::vector<Position> InVecCell)
 }
 std::string GetStrToJSON(std::string instr) {
 	std::string outStr = "[";
-	while (instr.size() != 0) {
-		outStr += "\"" + instr[0] + instr[1];
+	bool flag = false;
+	int a = 0, b = 1;
+	while (b <= instr.size() - 1) {
+		if (flag) {
+			outStr += ", ";
+		}
+		else {
+			flag = true;
+		}
+		outStr += "\""; 
+		outStr += instr[a];
+		outStr += instr[b];
 		outStr += "\"";
-
+		a += 2;
+		b += 2;
 	}
+	outStr += "]";
 	return outStr;
 }
 bool WareHouse::InsertDB(Position& pos, std::string type) {
@@ -247,11 +259,11 @@ bool WareHouse::InsertDB(Position& pos, std::string type) {
 	std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + pos.GetUUid() + "'");
 	if (GetNamePositionFromJson(PosCell) != "RemoteWarehouse") {
 		cout << PosCell << endl << endl;
-		std::string data = "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
-			GetNamePositionFromJson(PosCell) + "\"]}]";
-		cout << "data: " << data << endl << endl;
-		bool b = SendDataToServer("[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
-			GetNamePositionFromJson(PosCell) + "\"]}]");
+		/*std::string data = "[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\":[\"" +
+			GetStrToJSON(GetNamePositionFromJson(PosCell)) + "\"]}]";
+		cout << "data: " << data << endl << endl;*/
+		bool b = SendDataToServer("[{\"uuid\":\"" + pos.GetUUid() + "\",\"destination\": " +
+			GetStrToJSON(GetNamePositionFromJson(PosCell)) + "}]");
 		cout << "Resutl: " << b << endl << endl;
 	}
 	//Проверка на удалённый склад, корректность парсинга jsonЭ
@@ -340,6 +352,8 @@ vector<CompleteFuncElem> WareHouse::IssuePositions(vector<string> InVec) {
 	string Body = "DELETE FROM Positions WHERE UUID = '";
 	for (const auto& i : InVec) {
 		std::string PosCell = db.SelectData("SELECT Position FROM Positions WHERE UUID = '" + i + "'");
+		cout << "del: " << ("{\"destination\": " + GetStrToJSON(GetNamePositionFromJson(PosCell))) + "}" << endl<< endl;
+		DeletePositionHTTP("{\"destination\": " + GetStrToJSON(GetNamePositionFromJson(PosCell)) + "}");
 		db.InsertDBData(Body + i + "\'");
 
 	}

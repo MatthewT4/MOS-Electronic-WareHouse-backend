@@ -40,6 +40,21 @@ int main()
         << "Configuration:" << true << endl;
     cout << "===========================================================================" << endl;
     cout << "Starting server..........." << endl;
+    cout << "The following warehouse server data configuration is currently installed:" << endl
+        << "IP: http://127.0.0.1" << endl
+        << "PORT: 5000" << endl;
+    cout << "Change the warehouse server configuration?[Y/n]: ";
+    string inIP;
+    cin >> inIP;
+    if (inIP == "Y") {
+        string NewIP;
+        int NewPORT;
+        cout << endl << "New IP: ";
+        cin >> NewIP;
+        cout << "New PORT: ";
+        cin >> NewPORT;
+        SetIpAndPort(NewIP, NewPORT);
+    }
     std::string DBName = "WareHouse.db";
     {
         WareHouse WH(DBName);
@@ -61,6 +76,7 @@ int main()
             }
         }
         if (CreateNewTable) {
+
             cout << "We get the data and create a new warehouse configuration..." << endl;
             WH.GetDB().ClearDataBaseConf();
             if (WH.CreateDBTable(GetScheme())) {

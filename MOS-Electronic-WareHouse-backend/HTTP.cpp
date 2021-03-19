@@ -86,7 +86,7 @@ bool SendDataToServer(std::string data) {
 		//curl_easy_setopt(curl, CURLOPT_HTTPHEADER, type);
 		//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 		std::string ddatta = "[{\"uuid\":\"67768fb7f2c1d06d40450a478863bab1\",\"destination\":[\"C1\", \"C2\", \"D1\", \"D2\"]}]";
-		std::cout << "ddatta: " << ddatta << std::endl << std::endl;
+		std::cout << "data: " << data << std::endl << std::endl;
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
 		//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
@@ -121,4 +121,52 @@ bool SendDataToServer(std::string data) {
 	//std::cout << finish;
 	curl_global_cleanup();
 	return false;
+}
+bool DeletePositionHTTP(std::string inData) {
+	CURL* curl;//Объект CURL
+
+	//объект в который будет записан результат вызова функции curl_easy_perform
+	CURLcode res;
+	std::cout << IpServer << " " << portServer << std::endl;
+	//выполняем инициализацю
+	curl = curl_easy_init();
+	if (!curl) { //проверяем все ли ОК
+		std::cerr << "cURL ERROR curl_easy_init" << std::endl;
+		exit(1);
+	}
+	//дальше работаем с опциями
+	std::string finish = "";
+	//curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1/scheme");
+	//curl_easy_setopt(curl, CURLOPT_PORT, 5000);
+	std::string vr = IpServer + "/position";
+	curl_easy_setopt(curl, CURLOPT_URL, vr.c_str());
+	curl_easy_setopt(curl, CURLOPT_PORT, portServer);
+	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, inData.c_str());
+	curl_easy_setopt(curl, CURLOPT_POST, 0); // выключаем POST
+	curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
+	//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &finish);
+	struct curl_slist* header = NULL;
+	header = curl_slist_append(header, "Content-Type:application/json");
+	/* Perform the request, res will get the return code */
+	res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header);
+	
+	/*//указываем использовать прокси сервер
+	curl_easy_setopt(curl, CURLOPT_PROXY, "ip_proxy:8080");
+
+	//задаем опцию отображение заголовка страницы
+	curl_easy_setopt(curl, CURLOPT_HEADER, 1);
+	*/
+	//вызываем функцию curl_easy_perform которая обработает все наши заданные опции и вернет результат, если res будет равен 0 то начит всё прошло успешно, иначе возникла какая то ошибка.
+	res = curl_easy_perform(curl);
+	if (res != CURLE_OK) {
+		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+		return false;
+	}
+	std::cout << "del Finsh: " << finish << std::endl << std::endl;
+	//завершаем нашу сессию
+	curl_easy_cleanup(curl);
+	std::cout << "Del Ok!" << std::endl;
+	return true;
 }
